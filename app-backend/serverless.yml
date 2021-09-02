@@ -1,0 +1,29 @@
+service: snake-app-backend
+
+package:
+  individually: true
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-east-1
+  environment:
+    MONGODB_URI: ${env:MONGODB_URI}
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
+custom:
+  # serverless offline plugin setup
+  serverless-offline:
+    httpPort: 4000
