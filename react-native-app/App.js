@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Cam from './camera';
+import Main from './components/Main';
 
 export default function App() {
-  return (    
-      <Cam/>
+  return (
+    <Main />
   );
 }
 
