@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import InfoCard from '../elements/InfoCard';
+import SearchBar from '../elements/SearchBar';
 
 class Search extends Component {
   constructor(props) {
@@ -12,6 +14,8 @@ class Search extends Component {
     return (
       <View>
         <Text>SEARCH PAGE</Text>
+        <SearchBar />
+        <InfoCard /><InfoCard /><InfoCard /><InfoCard />
       </View>
     );
   }
