@@ -5,16 +5,24 @@ class TabBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: this.props.page,
     };
-  }
+    }
+    
+    isSelected(i) {
+        this.state.page = this.props.page;
+        if (this.state.page == i) {
+            return styles.selected;
+        }
+     }
 
   render() {
     return (
         <View style={styles.tabBar}>
             <View style={styles.textHolder}>
-                <Text style={styles.search}>Search</Text>
-                <Text style={styles.camera}> Camera </Text>
-                <Text style={styles.history}> History </Text>
+                <Text style={[styles.search, this.isSelected(0)]}>Search</Text>
+                <Text style={[styles.camera, this.isSelected(1)]}> Camera </Text>
+                <Text style={[styles.history, this.isSelected(2)]}> History </Text>
             </View>
       </View>
     );
@@ -33,7 +41,6 @@ const styles = StyleSheet.create({
         paddingTop: 11,
     },
     camera: {
-        fontWeight: 'bold',
         fontSize: 20,
         textAlign: 'center',
         textAlignVertical: 'center',
@@ -50,7 +57,10 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         flex: 2,
         paddingRight: 53,
-    }
+    },
+    selected: {
+        fontWeight: 'bold',
+    },
 });
 
 export default TabBar;

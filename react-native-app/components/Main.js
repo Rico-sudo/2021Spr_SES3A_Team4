@@ -13,15 +13,34 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: 1,
+      pageName: "SnakeScanner",
     };
   }
+  pagerRef = React.createRef();
+  setPageName(i) {
+    if (i == 0) this.state.pageName = "Search";
+    if (i == 1) this.state.pageName = "SnakeScanner";
+    if (i == 2) this.state.pageName = "History";
+    this.state.page = i;
+  }
+
+  onPageSelected = (e) => {
+    this.setState({
+        page: e.nativeEvent.position,
+    });
+    this.setPageName(e.nativeEvent.position);
+  };
+
+  
 
   render() {
     return (
+      
       <View style={styles.container}>
         <TopBar />
-        <MenuBar />
-        <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1}>
+        <MenuBar page={this.state.pageName}/>
+        <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} onPageSelected={this.onPageSelected} ref={this.pagerRef}>
           <View style={styles.page } key="1">
             <Search />
           </View>
@@ -32,7 +51,7 @@ class Main extends Component {
             <History />
           </View>
         </PagerView>
-        <TabBar />
+        <TabBar page={this.state.page}/>
         <BottomBar />
 
       </View>
@@ -50,8 +69,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   page: {
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 20,
     overflow: 'hidden',
   },

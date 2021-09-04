@@ -11,7 +11,7 @@ class MenuBar extends Component {
   render() {
     return (
       <View style={styles.menuBar}>
-        <Text style={ styles.logo}> SnakeScanner </Text>
+        <Text style={ styles.logo}>{this.props.page}</Text>
       </View>
     );
   }
