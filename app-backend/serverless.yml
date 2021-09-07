@@ -17,11 +17,11 @@ provider:
     MONGODB_URI: ${env:MONGODB_URI}
 
 functions:
-  hello:
-    handler: handler.hello
+  autocompleteSearchAustralianSnakes:
+    handler: handler.autocompleteSearchAustralianSnakes
     events:
       - http:
-          path: hello
+          path: autocompleteSearchAustralianSnakes
           method: get
 custom:
   # serverless offline plugin setup
