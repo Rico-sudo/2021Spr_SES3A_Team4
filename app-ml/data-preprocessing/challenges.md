@@ -22,6 +22,10 @@ I used Excel to manipulate the data into the following files:
 [Pseudechis Porphyriacus](PseudechisPorphyriacus.txt)
 [Pseudonaja Textilis](PseudonajaTextilis.txt)
 
+The second problem was overcome through batch resizing all images.
+
+Finally the number of images per snake were equalised (to 426 per snake, to ensure the model did not have any bias)
+
 ## Selected Snakes
 
 We decided to use the 6 most commonly encountered snakes in Austalia (with varying deadliness) to begin training our model. This was to ensure that best accuracy was met.
