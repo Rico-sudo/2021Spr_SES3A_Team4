@@ -15,12 +15,12 @@ The first problem was overcome through using the command:
 However, to achieve this I had to manpulate the existing `TrainVal` labels from https://www.aicrowd.com/challenges/snakeclef2021-snake-species-identification-challenge/dataset_files into a txt file just containing their png names.
 
 I used Excel to manipulate the data into the following files:
-[Boiga Irregularis](BoigaIrregularis.txt)
-[Dendrelaphis Punctulatus](DendrelaphisPunctulatus.txt)
-[Morelia Spilota](MoreliaSpilota.txt)
-[Notechis Scutatus](NotechisScutatus.txt)
-[Pseudechis Porphyriacus](PseudechisPorphyriacus.txt)
-[Pseudonaja Textilis](PseudonajaTextilis.txt)
+- [Boiga Irregularis](BoigaIrregularis.txt)
+- [Dendrelaphis Punctulatus](DendrelaphisPunctulatus.txt)
+- [Morelia Spilota](MoreliaSpilota.txt)
+- [Notechis Scutatus](NotechisScutatus.txt)
+- [Pseudechis Porphyriacus](PseudechisPorphyriacus.txt)
+- [Pseudonaja Textilis](PseudonajaTextilis.txt)
 
 The second problem was overcome through batch resizing all images.
 
