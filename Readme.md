@@ -12,5 +12,6 @@
 
 **To run the app on your device**
 * run npm install inside react-native-app folder
+* To navigate use cd react-native-app inside the terminal for your IDE.
 * run npm expo you will be re-directed to a website.
 * scan the QR code from the website on the expo app on your phone.
