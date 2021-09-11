@@ -33,17 +33,10 @@ class Main extends Component {
     this.viewPager.setPage(clickedTab);
   }
 
-  checkIfDark = () => {
-    let colorScheme = useColorScheme();
-    if (colorScheme === 'dark') {
-      return true;
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle={this.getColourScheme && "dark-content"} />
+        <StatusBar barStyle="dark-content" />
         <TopBar />
         <MenuBar />
         <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
