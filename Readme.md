@@ -1,5 +1,5 @@
 # Software Studio 3A Team 4 Project
-## Snake detection mobile application
+## Snake Detection Mobile Application
 
 
 ### Dev Environment Setup
