@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
@@ -19,6 +20,7 @@ const Cam = () => {
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [isPreview, setIsPreview] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     onHandlePermission();
@@ -48,7 +50,8 @@ const Cam = () => {
     return <View />;
   }
   if (hasPermission === false) {
-    return <Text style={styles.text}>Access to camera NOT garanted</Text>;
+    alert("Permission to access camera is required!");
+    return;
   }
   //data is the pic obj!!
   const onSnap = async () => {
@@ -58,6 +61,7 @@ const Cam = () => {
       const source = data.base64;
 
       if (source) {
+        setSelectedImage({localUri: data.uri});
         await cameraRef.current.pausePreview();
         setIsPreview(true);
       }
@@ -65,19 +69,33 @@ const Cam = () => {
   };
   const cancelPreview = async () => {
     await cameraRef.current.resumePreview();
+    setSelectedImage(null);
     setIsPreview(false);
   };
 
   let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (cameraRef.current) {
+      let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
+      if (permissionResult.granted === false) {
+        alert("Permission to access camera roll is required!");
+        return;
+      }
+
+      const options = { quality: 0.7, base64: true };
+      const data = await ImagePicker.launchImageLibraryAsync(options);
+      const source = data.base64;
+
+      if (data.cancelled === true){
+        return;
+      }
+
+      if (source) {
+        setSelectedImage({localUri: data.uri});
+        await cameraRef.current.pausePreview();
+        setIsPreview(true);
+      } 
     }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    console.log(pickerResult);
   }
 
   return (
@@ -88,6 +106,11 @@ const Cam = () => {
         type={cameraType}
         onCameraReady={onCameraReady}
       />
+      {selectedImage && (
+        <Image
+          source={{ uri: selectedImage.localUri }}
+          style={styles.pickedImage}
+        />)}
       <View style={styles.container}>
         {isPreview && (
           <TouchableOpacity
@@ -110,7 +133,7 @@ const Cam = () => {
               onPress={onSnap}
               style={styles.capture}
             />
-            <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
+            <TouchableOpacity onPress={openImagePickerAsync}>
               <MaterialIcons name="add-photo-alternate" size={28} color="white" />
             </TouchableOpacity>
           </View>
@@ -121,6 +144,11 @@ const Cam = () => {
 };
 
 const styles = StyleSheet.create({
+  pickedImage: {
+    flex: 1,
+    height: undefined,
+    width: undefined,
+  },
   closeButton: {
     position: "absolute",
     top: 35,
