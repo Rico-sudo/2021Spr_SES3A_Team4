@@ -16,21 +16,19 @@ class Main extends Component {
     };
   }
 
+  views = [
+  <View style={styles.page} key="1"><Search/></View>,
+  <View style={styles.page} key="2"><Cam/></View>,
+  <View style={styles.page} key="3"><History/></View>
+  ];
+
   render() {
     return (
       <View style={styles.container}>
         <TopBar />
         <MenuBar />
         <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1}>
-          <View style={styles.page } key="1">
-            <Search />
-          </View>
-          <View style={styles.page} key="2">
-            <Cam />
-          </View>
-          <View style={styles.page} key="3">
-            <History />
-          </View>
+          {this.views}
         </PagerView>
         <TabBar />
         <BottomBar />
