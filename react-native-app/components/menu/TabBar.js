@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 class TabBar extends Component {
@@ -7,14 +7,14 @@ class TabBar extends Component {
     this.state = {
     };
   }
-
+  
   render() {
     return (
         <View style={styles.tabBar}>
             <View style={styles.textHolder}>
-                <Text style={styles.search}>Search</Text>
-                <Text style={styles.camera}> Camera </Text>
-                <Text style={styles.history}> History </Text>
+                <Text style={[styles.search, {fontWeight: this.props.selectedPage === 0 && "bold" || "normal"}]}>Search</Text>
+                <Text style={[styles.camera, {fontWeight:  this.props.selectedPage === 1 && "bold" || "normal"}]}>Camera</Text>
+                <Text style={[styles.history, {fontWeight:  this.props.selectedPage === 2 && "bold" || "normal"}]}>History</Text>
             </View>
       </View>
     );
@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
         paddingTop: 11,
     },
     camera: {
-        fontWeight: 'bold',
         fontSize: 20,
         textAlign: 'center',
         textAlignVertical: 'center',

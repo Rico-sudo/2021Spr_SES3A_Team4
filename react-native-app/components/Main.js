@@ -13,24 +13,32 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selected: 1,
     };
   }
 
   views = [
-  <View style={styles.page} key="1"><Search/></View>,
-  <View style={styles.page} key="2"><Cam/></View>,
-  <View style={styles.page} key="3"><History/></View>
+  <View style={styles.page} key="0"><Search/></View>,
+  <View style={styles.page} key="1"><Cam/></View>,
+  <View style={styles.page} key="2"><History/></View>
   ];
+
+  handlePageNumber = (position) => {
+    this.setState({
+      selected: position,
+    })
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <TopBar />
         <MenuBar />
-        <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1}>
+        <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
+          onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}>
           {this.views}
         </PagerView>
-        <TabBar />
+        <TabBar selectedPage={this.state.selected}/>
         <BottomBar />
 
       </View>
