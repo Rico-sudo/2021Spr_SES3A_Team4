@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from 'expo-image-picker';
 
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const CAPTURE_SIZE = Math.floor(WINDOW_HEIGHT * 0.08);
@@ -67,6 +68,18 @@ const Cam = () => {
     setIsPreview(false);
   };
 
+  let openImagePickerAsync = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    console.log(pickerResult);
+  }
+
   return (
     <View style={styles.container}>
       <Camera
@@ -97,6 +110,9 @@ const Cam = () => {
               onPress={onSnap}
               style={styles.capture}
             />
+            <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
+              <MaterialIcons name="add-photo-alternate" size={28} color="white" />
+            </TouchableOpacity>
           </View>
         )}
       </View>
