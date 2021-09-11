@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, useColorScheme} from 'react-native';
 import Cam from './Camera';
 import TopBar from './menu/TopBar';
 import MenuBar from './menu/MenuBar';
@@ -33,9 +33,17 @@ class Main extends Component {
     this.viewPager.setPage(clickedTab);
   }
 
+  checkIfDark = () => {
+    let colorScheme = useColorScheme();
+    if (colorScheme === 'dark') {
+      return true;
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle={this.getColourScheme && "dark-content"} />
         <TopBar />
         <MenuBar />
         <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
