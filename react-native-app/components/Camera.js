@@ -11,9 +11,6 @@ import { Camera } from "expo-camera";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 
-const WINDOW_HEIGHT = Dimensions.get("window").height;
-const CAPTURE_SIZE = Math.floor(WINDOW_HEIGHT * 0.08);
-
 const Cam = () => {
   const cameraRef = useRef();
   const [hasPermission, setHasPermission] = useState(null);
@@ -98,11 +95,14 @@ const Cam = () => {
     }
   }
 
+
+
   return (
     <View style={styles.container}>
       <Camera
         ref={cameraRef}
         style={styles.container}
+        zoom={0}
         type={cameraType}
         onCameraReady={onCameraReady}
       />
@@ -127,12 +127,9 @@ const Cam = () => {
             <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
               <MaterialIcons name="flip-camera-ios" size={28} color="white" />
             </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              disabled={!isCameraReady}
-              onPress={onSnap}
-              style={styles.capture}
-            />
+            <TouchableOpacity activeOpacity={0.7} disabled={!isCameraReady} onPress={onSnap}>
+              <MaterialIcons name="panorama-fish-eye" size={90} color="white" />
+            </TouchableOpacity>
             <TouchableOpacity onPress={openImagePickerAsync}>
               <MaterialIcons name="add-photo-alternate" size={28} color="white" />
             </TouchableOpacity>
@@ -162,13 +159,8 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   capture: {
-    backgroundColor: "#ffffff",
-    borderRadius: 5,
-    height: CAPTURE_SIZE,
-    width: CAPTURE_SIZE,
-    borderRadius: Math.floor(CAPTURE_SIZE / 2),
-    marginBottom: 28,
-    marginHorizontal: 30,
+    left: 10,
+    right: 10,
   },
   bottomButtonsContainer: {
     position: "absolute",
@@ -176,7 +168,7 @@ const styles = StyleSheet.create({
     bottom: 28,
     width: "100%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
   container: {
     ...StyleSheet.absoluteFillObject,
