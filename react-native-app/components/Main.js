@@ -29,18 +29,22 @@ class Main extends Component {
     })
   }
 
+  childCallBack = (clickedTab) => {
+    this.viewPager.setPage(clickedTab);
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <TopBar />
         <MenuBar />
         <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
-          onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}>
+          onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}
+          ref={(viewPager) => {this.viewPager = viewPager}}>
           {this.views}
         </PagerView>
-        <TabBar selectedPage={this.state.selected}/>
+        <TabBar selectedPage={this.state.selected} passToParent={this.childCallBack}/>
         <BottomBar />
-
       </View>
     );
   }
