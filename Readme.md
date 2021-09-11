@@ -2,9 +2,9 @@
 ## Snake detection mobile application
 
 
-### Dev Environment setup
+### Dev Environment Setup
 
-**Install node**
+**Install Node**
 * Download node.js from https://nodejs.org/en/download/
 * run node -v & npm -v in command prompt to confirm the installation
 * Download Expo Go via the play store on your Android Device / IOS Device
