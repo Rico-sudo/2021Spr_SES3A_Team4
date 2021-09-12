@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 class MenuBar extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class MenuBar extends Component {
   render() {
     return (
       <View style={styles.menuBar}>
-        <Text style={ styles.logo}> SnakeScanner </Text>
+        <Image style={ styles.logo} source={require('../../assets/snakescannerheading.png')}/>
       </View>
     );
   }
@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
     menuBar: {
         height: 47,
         backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
   },
   logo: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    paddingTop: 7,
+
+    width: 170,
+    height: 40,
   }
 });
 

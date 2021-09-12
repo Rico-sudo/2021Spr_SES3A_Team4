@@ -10,6 +10,7 @@ import {
 import { Camera } from "expo-camera";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
+import  {PinchGestureHandler} from 'react-native-gesture-handler'
 
 const Cam = () => {
   const cameraRef = useRef();
@@ -99,13 +100,15 @@ const Cam = () => {
 
   return (
     <View style={styles.container}>
-      <Camera
-        ref={cameraRef}
-        style={styles.container}
-        zoom={0}
-        type={cameraType}
-        onCameraReady={onCameraReady}
-      />
+      <PinchGestureHandler>
+        <Camera
+          ref={cameraRef}
+          style={styles.container}
+          zoom={0}
+          type={cameraType}
+          onCameraReady={onCameraReady}
+        />
+      </PinchGestureHandler>
       {selectedImage && (
         <Image
           source={{ uri: selectedImage.localUri }}
