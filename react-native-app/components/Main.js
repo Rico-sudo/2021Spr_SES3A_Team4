@@ -8,7 +8,7 @@ import BottomBar from './menu/BottomBar';
 import TabBar from './menu/TabBar';
 import Search from './pages/Search';
 import History from './pages/History';
-
+import InfoCard from './pages/InfoCard';
 class Main extends Component {
   constructor(props) {
     super(props);
