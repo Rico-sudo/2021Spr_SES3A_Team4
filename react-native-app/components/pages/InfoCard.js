@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import InfoCard from '../elements/InfoCard';
 import SearchBar from '../elements/SearchBar';
 
-class Search extends Component {
+class InfoCard  extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,12 +13,14 @@ class Search extends Component {
   render() {
     return (
       <View>
-        <Text>SEARCH PAGE</Text>
+        <Text>InformationCard</Text>
         <SearchBar />
-        <InfoCard /><InfoCard /><InfoCard /><InfoCard />
-      </View>
+        <Description/> 
+        <Image source={require('.Python.png')} />
+      </View> 
+      
     );
   }
 }
 
-export default Search;
+export default InfoCard;

@@ -31,6 +31,9 @@ class Main extends Component {
           <View style={styles.page} key="3">
             <History />
           </View>
+          <View style={styles.page} key="4">
+            <InfoCard />
+          </View>
         </PagerView>
         <TabBar />
         <BottomBar />
