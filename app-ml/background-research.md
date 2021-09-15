@@ -19,3 +19,9 @@ https://critterpedia.com/
 
 Critterpedia is currently the only existing solution - however it is still in beta so we cannot access the app.
 Databases used for classification are not specified or publically available.
+
+## Existing datasets
+
+https://www.kaggle.com/duttadebadri/identifying-different-breeds-of-snakes/download
+
+This was the initial dataset we found. It will likely be discarded for an Australian dataset if we can find one
