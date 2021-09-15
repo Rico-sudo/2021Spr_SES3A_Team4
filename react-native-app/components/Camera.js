@@ -120,8 +120,6 @@ const Cam = () => {
       else {
         setzoomScale(zoomScale + e.scale / 5.0 > 1 ? 1 : zoomScale + e.scale / 5.0)
       }
-
-      console.log(e.scale, zoomScale)
     }
   }
 
@@ -131,45 +129,45 @@ const Cam = () => {
     <PinchGestureHandler
       onGestureEvent={() => onZoomEvent}
       onHandlerStateChange={(e) => onZoomStateChange(e)}>
-    <View style={styles.container}>
-        <Camera
-          ref={cameraRef}
-          style={styles.container}
-          zoom={zoomScale}
-          type={cameraType}
-          onCameraReady={onCameraReady}
-        />
-      {selectedImage && (
-        <Image
-          source={{ uri: selectedImage.localUri }}
-          style={styles.pickedImage}
-        />)}
       <View style={styles.container}>
-        {isPreview && (
-          <TouchableOpacity
-            onPress={cancelPreview}
-            style={styles.closeButton}
-            activeOpacity={0.7}
-          >
-            <AntDesign name="close" size={32} color="#fff" />
-          </TouchableOpacity>
-        )}
-        {!isPreview && (
-          <View style={styles.bottomButtonsContainer}>
-            {/* if we need flip */}
-            <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
-              <MaterialIcons name="flip-camera-ios" size={28} color="white" />
+          <Camera
+            ref={cameraRef}
+            style={styles.container}
+            zoom={zoomScale}
+            type={cameraType}
+            onCameraReady={onCameraReady}
+          />
+        {selectedImage && (
+          <Image
+            source={{ uri: selectedImage.localUri }}
+            style={styles.pickedImage}
+          />)}
+        <View style={styles.container}>
+          {isPreview && (
+            <TouchableOpacity
+              onPress={cancelPreview}
+              style={styles.closeButton}
+              activeOpacity={0.7}
+            >
+              <AntDesign name="close" size={32} color="#fff" />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.7} disabled={!isCameraReady} onPress={onSnap}>
-              <MaterialIcons name="panorama-fish-eye" size={90} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={openImagePickerAsync}>
-              <MaterialIcons name="add-photo-alternate" size={28} color="white" />
-            </TouchableOpacity>
-          </View>
-        )}
+          )}
+          {!isPreview && (
+            <View style={styles.bottomButtonsContainer}>
+              {/* if we need flip */}
+              <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
+                <MaterialIcons name="flip-camera-ios" size={28} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7} disabled={!isCameraReady} onPress={onSnap}>
+                <MaterialIcons name="panorama-fish-eye" size={90} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={openImagePickerAsync}>
+                <MaterialIcons name="add-photo-alternate" size={28} color="white" />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </View>
-    </View>
     </PinchGestureHandler>
   );
 };
