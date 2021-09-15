@@ -1,6 +1,6 @@
 # Background Research & Considerations
 
-# Why we want to solve this problem
+## Why we want to solve this problem
 
 Snake bites are a significant issue around the world, causing 100k deaths and 400k victims of disability and disfigurement per year. Rural communities in subdeveloped countries are the hardest hit as they have the highest venomous snake diversity and have limited medical expertise and access to antivenoms.
 
@@ -13,4 +13,9 @@ Without a machine learning app - snake identification is difficult due to:
 
 This project aims to expore how Machine Learning can be applied to snake identification in order to minimise erroneous and delayed medical actions and improve snakebite data.
 
+## Existing solutions
 
+https://critterpedia.com/
+
+Critterpedia is currently the only existing solution - however it is still in beta so we cannot access the app.
+Databases used for classification are not specified or publically available.
