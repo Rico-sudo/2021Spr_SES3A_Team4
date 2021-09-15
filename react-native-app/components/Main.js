@@ -13,7 +13,24 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selected: 1,
     };
+  }
+
+  views = [
+  <View style={styles.page} key="0"><Search/></View>,
+  <View style={styles.page} key="1"><Cam/></View>,
+  <View style={styles.page} key="2"><History/></View>
+  ];
+
+  handlePageNumber = (position) => {
+    this.setState({
+      selected: position,
+    })
+  }
+
+  childCallBack = (clickedTab) => {
+    this.viewPager.setPage(clickedTab);
   }
 
   render() {
@@ -21,20 +38,13 @@ class Main extends Component {
       <View style={styles.container}>
         <TopBar />
         <MenuBar />
-        <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1}>
-          <View style={styles.page } key="1">
-            <Search />
-          </View>
-          <View style={styles.page} key="2">
-            <Cam />
-          </View>
-          <View style={styles.page} key="3">
-            <History />
-          </View>
+        <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
+          onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}
+          ref={(viewPager) => {this.viewPager = viewPager}}>
+          {this.views}
         </PagerView>
-        <TabBar />
+        <TabBar selectedPage={this.state.selected} passToParent={this.childCallBack}/>
         <BottomBar />
-
       </View>
     );
   }
