@@ -8,10 +8,15 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.8",
+    "@tensorflow/tfjs": "^3.9.0",
+    "@tensorflow/tfjs-react-native": "^0.6.0",
+    "async-storage": "^0.1.0",
     "awesome-only-resolves-last-promise": "^1.0.3",
     "axios": "^0.21.4",
     "expo": "~42.0.1",
     "expo-camera": "~11.2.2",
+    "expo-gl": "^10.4.2",
     "expo-image-picker": "~10.2.2",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "^0.8.5",
@@ -19,6 +24,7 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-dotenv": "^3.2.0",
+    "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-pager-view": "5.0.12",
     "react-native-web": "~0.13.12"
