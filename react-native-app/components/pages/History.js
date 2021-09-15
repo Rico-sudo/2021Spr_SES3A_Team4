@@ -16,6 +16,7 @@ class History extends Component {
  
   render() {
     return(
+    
       <ScrollView>
     <View style={styles.container}>
     <View><Text>------------------------------------</Text></View>
@@ -25,8 +26,9 @@ class History extends Component {
     </View>
     <View><Text>------------------------------------</Text></View>
     
+    
     <View style={styles.info}>
-      <Text style={styles.infoText}>App instructions.........</Text>
+      <Text style={styles.infoText}>    App instructions.....</Text>
     </View>
     <View style={styles.infoCard}>
        <InfoCard/>
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   },
   
   heading:{
-      fontSize: 30,
+      fontSize: 25,
       
   },
   info: {
