@@ -9,9 +9,15 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import * as jpeg from "jpeg-js";
+import * as tf from "@tensorflow/tfjs";
+import { Buffer } from "buffer";
+import { useSnakeDetectorModel } from "../context/SnakeDetectorModelContext";
 
 const Cam = () => {
+  const { snakeDetector } = useSnakeDetectorModel();
+
   const cameraRef = useRef();
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
@@ -50,6 +56,30 @@ const Cam = () => {
     alert("Permission to access camera is required!");
     return;
   }
+
+  const imageToTensor = (rawImageData) => {
+    //Function to convert jpeg image to tensors
+    const TO_UINT8ARRAY = true;
+    const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY);
+    // Drop the alpha channel info for mobilenet
+    const buffer = new Uint8Array(width * height * 3);
+    let offset = 0; // offset into original data
+    for (let i = 0; i < buffer.length; i += 3) {
+      buffer[i] = data[offset];
+      buffer[i + 1] = data[offset + 1];
+      buffer[i + 2] = data[offset + 2];
+      offset += 4;
+    }
+    return tf.tensor3d(buffer, [height, width, 3]);
+  };
+
+  const processImage = async (imageUri) => {
+    const binaryFile = Buffer.from(imageUri, "base64");
+    const imageTensor = imageToTensor(binaryFile).resizeBilinear([224, 224]);
+    console.log(imageTensor);
+    //snakeDetector.predict(imageTensor);
+  };
+
   //data is the pic obj!!
   const onSnap = async () => {
     if (cameraRef.current) {
@@ -58,7 +88,8 @@ const Cam = () => {
       const source = data.base64;
 
       if (source) {
-        setSelectedImage({localUri: data.uri});
+        await processImage(source);
+        setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
         setIsPreview(true);
       }
@@ -72,7 +103,8 @@ const Cam = () => {
 
   let openImagePickerAsync = async () => {
     if (cameraRef.current) {
-      let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      let permissionResult =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
 
       if (permissionResult.granted === false) {
         alert("Permission to access camera roll is required!");
@@ -83,19 +115,17 @@ const Cam = () => {
       const data = await ImagePicker.launchImageLibraryAsync(options);
       const source = data.base64;
 
-      if (data.cancelled === true){
+      if (data.cancelled === true) {
         return;
       }
 
       if (source) {
-        setSelectedImage({localUri: data.uri});
+        setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
         setIsPreview(true);
-      } 
+      }
     }
-  }
-
-
+  };
 
   return (
     <View style={styles.container}>
@@ -110,7 +140,8 @@ const Cam = () => {
         <Image
           source={{ uri: selectedImage.localUri }}
           style={styles.pickedImage}
-        />)}
+        />
+      )}
       <View style={styles.container}>
         {isPreview && (
           <TouchableOpacity
@@ -127,11 +158,19 @@ const Cam = () => {
             <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
               <MaterialIcons name="flip-camera-ios" size={28} color="white" />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.7} disabled={!isCameraReady} onPress={onSnap}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              disabled={!isCameraReady}
+              onPress={onSnap}
+            >
               <MaterialIcons name="panorama-fish-eye" size={90} color="white" />
             </TouchableOpacity>
             <TouchableOpacity onPress={openImagePickerAsync}>
-              <MaterialIcons name="add-photo-alternate" size={28} color="white" />
+              <MaterialIcons
+                name="add-photo-alternate"
+                size={28}
+                color="white"
+              />
             </TouchableOpacity>
           </View>
         )}
