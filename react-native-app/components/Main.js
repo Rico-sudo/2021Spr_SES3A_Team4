@@ -73,7 +73,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    backgroundColor: 'transparent',
+    borderRadius: 20,
+    borderColor: 'white',
+    borderWidth: 4,
+    borderRadius: 20,
+    overflow: 'hidden',
+    backgroundColor: 'white',
   },
 });
 
