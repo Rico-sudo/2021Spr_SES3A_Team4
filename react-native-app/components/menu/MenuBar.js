@@ -11,7 +11,7 @@ class MenuBar extends Component {
   render() {
     return (
       <View style={styles.menuBar}>
-        <Image style={ styles.logo} source={require('../../assets/snakescannerheading.png')}/>
+        <Image style={styles.logo} source={require('../../assets/snakescannerheading.png')}/>
       </View>
     );
   }
@@ -19,14 +19,13 @@ class MenuBar extends Component {
 
 const styles = StyleSheet.create({
     menuBar: {
-        height: 47,
-        backgroundColor: 'white',
+        height: 55,
+        backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
   },
   logo: {
-
-    width: 170,
+    width: 40,
     height: 40,
   }
 });

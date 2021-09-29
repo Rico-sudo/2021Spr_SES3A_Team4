@@ -132,7 +132,7 @@ const Cam = () => {
       <View style={styles.container}>
           <Camera
             ref={cameraRef}
-            style={styles.container}
+            style={styles.camera}
             zoom={zoomScale}
             type={cameraType}
             onCameraReady={onCameraReady}
@@ -203,6 +203,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   container: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  camera: {
     ...StyleSheet.absoluteFillObject,
   },
   text: {
