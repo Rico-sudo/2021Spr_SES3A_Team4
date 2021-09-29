@@ -39,7 +39,7 @@ class Main extends Component {
     return (
       <View style={styles.container}>
          <LinearGradient
-        colors={['#3BB44A', '#016937']}
+        colors={['#5c9a63', '#214d22']}
         start={{ x: -0.65, y: 0.65 }}
         end={{ x: 1, y: 1 }}
         locations={[0,1]}
