@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Ses3ATeam4",
-    "slug": "Ses3ATeam4",
+    "name": "SnakeScanner",
+    "slug": "SnakeScanner",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
