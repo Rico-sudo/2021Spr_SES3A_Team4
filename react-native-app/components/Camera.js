@@ -204,6 +204,8 @@ const styles = StyleSheet.create({
   },
   container: {
     ...StyleSheet.absoluteFillObject,
+    borderColor: 'white',
+    borderWidth: 2,
     borderRadius: 20,
     overflow: 'hidden'
   },
