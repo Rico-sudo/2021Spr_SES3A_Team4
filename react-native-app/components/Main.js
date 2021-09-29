@@ -44,7 +44,7 @@ class Main extends Component {
         end={{ x: 1, y: 1 }}
         locations={[0,1]}
         style={styles.container}>
-          <StatusBar barStyle="dark-content" />
+          <StatusBar barStyle="light-content" />
           <TopBar />
           <MenuBar />
           <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
