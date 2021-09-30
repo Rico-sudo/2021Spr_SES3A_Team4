@@ -16,7 +16,7 @@ class Main extends Component {
     super(props);
     this.state = {
       selected: 1,
-      pageName = "SnakeScanner",
+      pageName: "SnakeScanner",
     };
   }
   pagerRef = React.createRef();
