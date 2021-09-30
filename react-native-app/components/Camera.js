@@ -5,12 +5,13 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Image,
+  Animated
 } from "react-native";
 import { Camera } from "expo-camera";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-
-const WINDOW_HEIGHT = Dimensions.get("window").height;
-const CAPTURE_SIZE = Math.floor(WINDOW_HEIGHT * 0.08);
+import * as ImagePicker from 'expo-image-picker';
+import  {PinchGestureHandler} from 'react-native-gesture-handler';
 
 const Cam = () => {
   const cameraRef = useRef();
@@ -18,6 +19,8 @@ const Cam = () => {
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [isPreview, setIsPreview] = useState(false);
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [zoomScale, setzoomScale] = useState(0);
 
   useEffect(() => {
     onHandlePermission();
@@ -47,7 +50,8 @@ const Cam = () => {
     return <View />;
   }
   if (hasPermission === false) {
-    return <Text style={styles.text}>Access to camera NOT garanted</Text>;
+    alert("Permission to access camera is required!");
+    return;
   }
   //data is the pic obj!!
   const onSnap = async () => {
@@ -57,6 +61,7 @@ const Cam = () => {
       const source = data.base64;
 
       if (source) {
+        setSelectedImage({localUri: data.uri});
         await cameraRef.current.pausePreview();
         setIsPreview(true);
       }
@@ -64,47 +69,115 @@ const Cam = () => {
   };
   const cancelPreview = async () => {
     await cameraRef.current.resumePreview();
+    setSelectedImage(null);
     setIsPreview(false);
   };
 
+  let openImagePickerAsync = async () => {
+    if (cameraRef.current) {
+      let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (permissionResult.granted === false) {
+        alert("Permission to access camera roll is required!");
+        return;
+      }
+
+      const options = { quality: 0.7, base64: true };
+      const data = await ImagePicker.launchImageLibraryAsync(options);
+      const source = data.base64;
+
+      if (data.cancelled === true){
+        return;
+      }
+
+      if (source) {
+        setSelectedImage({localUri: data.uri});
+        await cameraRef.current.pausePreview();
+        setIsPreview(true);
+      } 
+    }
+  }
+
+  const onZoomEvent = Animated.event(
+    [
+      {
+        nativeEvent: { scale: new Animated.Value(1) }
+      }
+    ],
+    {
+      useNativeDriver: true
+    }
+  )
+
+  const onZoomStateChange = event => {
+    const e = event.nativeEvent
+
+    if (e.oldState === 4) {
+      //camera zoom: 0 = no zoom, 1 = max zoom
+      if (e.scale < 1) {
+        setzoomScale(zoomScale + e.scale - 1 < 0 ? 0 : zoomScale + e.scale - 1)
+      }
+      else {
+        setzoomScale(zoomScale + e.scale / 5.0 > 1 ? 1 : zoomScale + e.scale / 5.0)
+      }
+    }
+  }
+
+
+
   return (
-    <View style={styles.container}>
-      <Camera
-        ref={cameraRef}
-        style={styles.container}
-        type={cameraType}
-        onCameraReady={onCameraReady}
-      />
+    <PinchGestureHandler
+      onGestureEvent={() => onZoomEvent}
+      onHandlerStateChange={(e) => onZoomStateChange(e)}>
       <View style={styles.container}>
-        {isPreview && (
-          <TouchableOpacity
-            onPress={cancelPreview}
-            style={styles.closeButton}
-            activeOpacity={0.7}
-          >
-            <AntDesign name="close" size={32} color="#fff" />
-          </TouchableOpacity>
-        )}
-        {!isPreview && (
-          <View style={styles.bottomButtonsContainer}>
-            {/* if we need flip */}
-            <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
-              <MaterialIcons name="flip-camera-ios" size={28} color="white" />
-            </TouchableOpacity>
+          <Camera
+            ref={cameraRef}
+            style={styles.container}
+            zoom={zoomScale}
+            type={cameraType}
+            onCameraReady={onCameraReady}
+          />
+        {selectedImage && (
+          <Image
+            source={{ uri: selectedImage.localUri }}
+            style={styles.pickedImage}
+          />)}
+        <View style={styles.container}>
+          {isPreview && (
             <TouchableOpacity
+              onPress={cancelPreview}
+              style={styles.closeButton}
               activeOpacity={0.7}
-              disabled={!isCameraReady}
-              onPress={onSnap}
-              style={styles.capture}
-            />
-          </View>
-        )}
+            >
+              <AntDesign name="close" size={32} color="#fff" />
+            </TouchableOpacity>
+          )}
+          {!isPreview && (
+            <View style={styles.bottomButtonsContainer}>
+              {/* if we need flip */}
+              <TouchableOpacity disabled={!isCameraReady} onPress={switchCamera}>
+                <MaterialIcons name="flip-camera-ios" size={28} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7} disabled={!isCameraReady} onPress={onSnap}>
+                <MaterialIcons name="panorama-fish-eye" size={90} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={openImagePickerAsync}>
+                <MaterialIcons name="add-photo-alternate" size={28} color="white" />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </View>
-    </View>
+    </PinchGestureHandler>
   );
 };
 
 const styles = StyleSheet.create({
+  pickedImage: {
+    flex: 1,
+    height: undefined,
+    width: undefined,
+  },
   closeButton: {
     position: "absolute",
     top: 35,
@@ -118,13 +191,8 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   capture: {
-    backgroundColor: "#ffffff",
-    borderRadius: 5,
-    height: CAPTURE_SIZE,
-    width: CAPTURE_SIZE,
-    borderRadius: Math.floor(CAPTURE_SIZE / 2),
-    marginBottom: 28,
-    marginHorizontal: 30,
+    left: 10,
+    right: 10,
   },
   bottomButtonsContainer: {
     position: "absolute",
@@ -132,7 +200,7 @@ const styles = StyleSheet.create({
     bottom: 28,
     width: "100%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
   container: {
     ...StyleSheet.absoluteFillObject,
