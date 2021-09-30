@@ -8,13 +8,6 @@ class TabBar extends Component {
       page: this.props.page,
     };
     }
-    
-    isSelected(i) {
-        this.state.page = this.props.page;
-        if (this.state.page == i) {
-            return styles.selected;
-        }
-     }
 
   onClickTab = (tab) => {
       this.props.passToParent(tab); 
@@ -24,9 +17,6 @@ class TabBar extends Component {
     return (
         <View style={styles.tabBar}>
             <View style={styles.textHolder}>
-                {/* <Text style={[styles.search, this.isSelected(0)]}>Search</Text>
-                <Text style={[styles.camera, this.isSelected(1)]}> Camera </Text>
-                <Text style={[styles.history, this.isSelected(2)]}> History </Text> */}
                 <TouchableOpacity onPress={() => this.onClickTab(0)}>
                     <Text style={[styles.search, {fontWeight: this.props.selectedPage === 0 && "bold" || "normal"}]}>Search</Text>
                 </TouchableOpacity>
