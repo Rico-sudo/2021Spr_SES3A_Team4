@@ -78,15 +78,18 @@ const Cam = () => {
 
   const processImage = async (imageUri) => {
     const binaryFile = Buffer.from(imageUri, "base64");
-    const imageTensor = imageToTensor(binaryFile).resizeBilinear([224, 224]);
-    console.log(imageTensor);
-    //snakeDetector.predict(imageTensor);
+    const imageTensor = imageToTensor(binaryFile)
+      .resizeBilinear([226, 226])
+      .reshape([-1, 226, 226, 3]);
+    // Predict snake
+    const res = await snakeDetector.predict(imageTensor);
+    console.log("Result", res);
   };
 
   //data is the pic obj!!
   const onSnap = async () => {
     if (cameraRef.current) {
-      const options = { quality: 0.7, base64: true };
+      const options = { quality: 0.5, base64: true };
       const data = await cameraRef.current.takePictureAsync(options);
       const source = data.base64;
 
@@ -114,7 +117,7 @@ const Cam = () => {
         return;
       }
 
-      const options = { quality: 0.7, base64: true };
+      const options = { quality: 0.5, base64: true };
       const data = await ImagePicker.launchImageLibraryAsync(options);
       const source = data.base64;
 
