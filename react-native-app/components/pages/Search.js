@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { container, Header, View, Text, Icon, Input, Item, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import InfoCard from '../elements/InfoCard';
 import SearchBar from '../elements/SearchBar';
 
@@ -12,22 +12,20 @@ class Search extends Component {
 
   render() {
     return (
-
-      <View>
-        <View>
-          <View>
-          <Image/>
-        </View>
-        <TextInput />
-
+      <ScrollView contentContainerStyle={styles.container}>
         <Text>SEARCH PAGE</Text>
         <SearchBar />
-        <InfoCard /><InfoCard /><InfoCard /><InfoCard />
-
-      </View> 
-      </View>
+        <InfoCard /><InfoCard /><InfoCard /><InfoCard /><InfoCard /><InfoCard />
+      </ScrollView>
     );
   }
 }
+
+//STYLESHEET
+const styles = StyleSheet.create({
+  container: {
+
+  }
+});
 
 export default Search;
