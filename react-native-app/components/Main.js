@@ -20,21 +20,23 @@ class Main extends Component {
     };
   }
   pagerRef = React.createRef();
-  setPageName(i) {
-    if (i == 0) this.state.pageName = "Search";
-    if (i == 1) this.state.pageName = "SnakeScanner";
-    if (i == 2) this.state.pageName = "History";
-    this.state.page = i;
+  setPageName = (i) => {
+    if (i == 0) {
+      this.setState({
+        pageName: "Search",
+      })
+    }
+    if (i == 1) {
+      this.setState({
+        pageName: "SnakeScanner",
+      })
+    } 
+    if (i == 2) {
+      this.setState({
+        pageName: "History",
+      })
+    }
   }
-
-  onPageSelected = (e) => {
-    this.setState({
-        page: e.nativeEvent.position,
-    });
-    this.setPageName(e.nativeEvent.position);
-  };
-
-  
 
   views = [
   <View style={styles.page} key="0"><Search/></View>,
@@ -64,9 +66,9 @@ class Main extends Component {
         style={styles.container}>
           <StatusBar barStyle="light-content" />
           <TopBar />
-          <MenuBar />
+          <MenuBar pageName={this.state.pageName}/>
           <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
-            onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}
+            onPageSelected={e => this.handlePageNumber(e.nativeEvent.position), e => this.setPageName(e.nativeEvent.position)}
             ref={(viewPager) => {this.viewPager = viewPager}}>
             {this.views}
           </PagerView>

@@ -12,7 +12,8 @@ class MenuBar extends Component {
   render() {
     return (
       <View style={styles.menuBar}>
-        <Image style={styles.logo} source={require('../../assets/snakescannerheading.png')}/>
+        {/* <Image style={styles.logo} source={require('../../assets/snakescannerheading.png')}/> */}
+          <Text style={styles.heading}>{this.props.pageName}</Text>
         <TouchableOpacity style={styles.settings}>
           <MaterialIcons name="settings" size={28} color="white" />
         </TouchableOpacity>
@@ -27,6 +28,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  heading: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: 'Avenir-Medium'
   },
   logo: {
     width: 40,
