@@ -5,8 +5,9 @@ class TabBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: this.props.page,
     };
-  }
+    }
 
   onClickTab = (tab) => {
       this.props.passToParent(tab); 
@@ -34,7 +35,7 @@ class TabBar extends Component {
 const styles = StyleSheet.create({
     tabBar: {
         height: 49,
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
     },
     textHolder: {
         flex: 1,
@@ -45,16 +46,19 @@ const styles = StyleSheet.create({
     camera: {
         fontSize: 20,
         flex: 2,
+        color: 'white',
     },
     search: {
         fontSize: 20,
         flex: 2,
         paddingLeft: 53,
+        color: 'white',
     },
     history: {
         fontSize: 20,
         flex: 2,
         paddingRight: 53,
+        color: 'white',
     }
 });
 

@@ -18,7 +18,7 @@ class BottomBar extends Component {
 const styles = StyleSheet.create({
     bottomBar: {
         height: 27,
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
     },
 });
 
