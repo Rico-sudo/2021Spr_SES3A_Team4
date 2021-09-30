@@ -48,6 +48,7 @@ class Main extends Component {
     this.setState({
       selected: position,
     })
+    this.setPageName(position);
   }
 
   childCallBack = (clickedTab) => {
@@ -68,7 +69,7 @@ class Main extends Component {
           <TopBar />
           <MenuBar pageName={this.state.pageName}/>
           <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
-            onPageSelected={e => this.handlePageNumber(e.nativeEvent.position), e => this.setPageName(e.nativeEvent.position)}
+            onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}
             ref={(viewPager) => {this.viewPager = viewPager}}>
             {this.views}
           </PagerView>
