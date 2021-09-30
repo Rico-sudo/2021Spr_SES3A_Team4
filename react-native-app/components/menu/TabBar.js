@@ -5,8 +5,9 @@ class TabBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      page: this.props.page,
     };
-  }
+    }
 
   onClickTab = (tab) => {
       this.props.passToParent(tab); 

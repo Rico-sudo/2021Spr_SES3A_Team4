@@ -16,7 +16,26 @@ class Main extends Component {
     super(props);
     this.state = {
       selected: 1,
+      pageName: "SnakeScanner",
     };
+  }
+  pagerRef = React.createRef();
+  setPageName = (i) => {
+    if (i == 0) {
+      this.setState({
+        pageName: "Search",
+      })
+    }
+    if (i == 1) {
+      this.setState({
+        pageName: "SnakeScanner",
+      })
+    } 
+    if (i == 2) {
+      this.setState({
+        pageName: "History",
+      })
+    }
   }
 
   views = [
@@ -29,6 +48,7 @@ class Main extends Component {
     this.setState({
       selected: position,
     })
+    this.setPageName(position);
   }
 
   childCallBack = (clickedTab) => {
@@ -37,6 +57,7 @@ class Main extends Component {
 
   render() {
     return (
+      
       <View style={styles.container}>
          <LinearGradient
         colors={['#3BB44A', '#016937']}
@@ -46,7 +67,7 @@ class Main extends Component {
         style={styles.container}>
           <StatusBar barStyle="light-content" />
           <TopBar />
-          <MenuBar />
+          <MenuBar pageName={this.state.pageName}/>
           <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
             onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}
             ref={(viewPager) => {this.viewPager = viewPager}}>
