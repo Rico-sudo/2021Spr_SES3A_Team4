@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { container, Header, View, Text, Icon, Input, Item, TextInput } from 'react-native';
+import { container, Header, View, Text, Icon, Input, Item, TextInput, Image } from 'react-native';
 import InfoCard from '../elements/InfoCard';
 import SearchBar from '../elements/SearchBar';
 
@@ -13,14 +13,10 @@ class Search extends Component {
   render() {
     return (
 
-      <View style={StyleSheet.container}>
-        <View style={StyleSheet.searchContainer}>
-          <View styles={styles.vvSearch}
-          <Image
-            resizeMode='center'
-            style={StyleSheet.icSearch}
-            source={require{'../../assets/ic_search.png'}} />
-
+      <View>
+        <View>
+          <View>
+          <Image/>
         </View>
         <TextInput />
 
@@ -29,7 +25,7 @@ class Search extends Component {
         <InfoCard /><InfoCard /><InfoCard /><InfoCard />
 
       </View> 
-     </container > 
+      </View>
     );
   }
 }
