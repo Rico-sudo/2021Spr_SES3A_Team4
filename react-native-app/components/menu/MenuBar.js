@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { MaterialIcons } from "@expo/vector-icons";
 
 class MenuBar extends Component {
   constructor(props) {
@@ -11,23 +12,37 @@ class MenuBar extends Component {
   render() {
     return (
       <View style={styles.menuBar}>
-        <Text style={ styles.logo}> SnakeScanner </Text>
+        {/* <Image style={styles.logo} source={require('../../assets/snakescannerheading.png')}/> */}
+          <Text style={styles.heading}>{this.props.pageName}</Text>
+        <TouchableOpacity style={styles.settings}>
+          <MaterialIcons name="settings" size={28} color="white" />
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-    menuBar: {
-        height: 47,
-        backgroundColor: 'white',
+  menuBar: {
+    height: 55,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  logo: {
+  heading: {
+    color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    paddingTop: 7,
+    fontFamily: 'Avenir-Medium'
+  },
+  logo: {
+    width: 40,
+    height: 40,
+  },
+  settings: {
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    right: Dimensions.get('window').width*0.05,
   }
 });
 

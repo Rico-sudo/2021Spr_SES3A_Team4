@@ -20,8 +20,8 @@ class InfoCard extends Component {
 
 const styles = StyleSheet.create({
   infoCard: {
-    width: 326,
-    height: 169,
+    width: 320,
+    height: 140,
     backgroundColor: '#FEFEFE',
     borderRadius: 20,
     alignContent: 'center',
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3, },
     shadowOpacity: 1,
     shadowRadius: 5,
+    margin: 15,
   },
 });
 

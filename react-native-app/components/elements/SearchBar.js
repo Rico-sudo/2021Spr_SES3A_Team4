@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 3, },
         shadowOpacity: 1,
         shadowRadius: 5,
-    },
+  },
 });
 
 export default SearchBar;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import InfoCard from '../elements/InfoCard';
 
 class History extends Component {
@@ -11,12 +11,17 @@ class History extends Component {
 
   render() {
     return (
-      <View>
-        <Text> HISTORY PAGE </Text>
-        <InfoCard /><InfoCard /><InfoCard /><InfoCard />
-      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <InfoCard /><InfoCard /><InfoCard /><InfoCard /><InfoCard /><InfoCard /><InfoCard /><InfoCard />
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    
+  },
+});
 
 export default History;
