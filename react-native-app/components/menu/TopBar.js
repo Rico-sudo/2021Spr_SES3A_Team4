@@ -19,8 +19,8 @@ class TopBar extends Component {
 
 const styles = StyleSheet.create({
     topBar: {
-        height: 44,
-        backgroundColor: 'white',
+        height: 33,
+        backgroundColor: 'transparent',
     },
 });
 
