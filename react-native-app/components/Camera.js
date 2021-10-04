@@ -13,7 +13,10 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import * as jpeg from "jpeg-js";
 import * as tf from "@tensorflow/tfjs";
 import { Buffer } from "buffer";
-import { useSnakeDetectorModel } from "../context/SnakeDetectorModelContext";
+import {
+  useSnakeDetectorModel,
+  snakeLabels,
+} from "../context/SnakeDetectorModelContext";
 import * as ImagePicker from "expo-image-picker";
 import { PinchGestureHandler } from "react-native-gesture-handler";
 import * as ImageManipulator from "expo-image-manipulator";
@@ -69,8 +72,8 @@ const Cam = () => {
       const imageTensor = await tf.browser.fromPixels({ data, width, height });
       // // Predict snake
       const res = await snakeDetector.predict(imageTensor.expandDims(0));
-      const data = res.argMax(-1).dataSync();
-      return { data };
+      const prediction = snakeLabels[res.argMax(-1).dataSync()[0]];
+      return { prediction };
     } catch (error) {
       return { error: error.message };
     }
@@ -79,17 +82,21 @@ const Cam = () => {
   //data is the pic obj!!
   const onSnap = async () => {
     if (cameraRef.current) {
-      const options = { base64: true };
       const data = await cameraRef.current.takePictureAsync();
-      // const source = data.base64;
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         data.uri,
-        [{ resize: { width: 226, height: 226 } }], // resize to width of 300 and preserve aspect ratio
+        [{ resize: { width: 226, height: 226 } }],
         { compress: 0.5, base64: true }
       );
       const source = resizedPhoto.base64;
       if (source) {
-        const result = await processImage(source); // if successful, prediction is in result.data // otherwise, error message is in result.error
+        const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
+        if (result.prediction) {
+          console.log("Predicted snake", result.prediction);
+        } else {
+          console.log("Error", result.error);
+        }
+
         setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
         setIsPreview(true);
