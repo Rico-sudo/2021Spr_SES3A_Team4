@@ -6,6 +6,15 @@ const SnakeDetectorModelContext = createContext({
   snakeDetector: null,
 });
 
+export const snakeLabels = [
+  "NotechisScutatus",
+  "DendrelaphisPunctulatus",
+  "MoreliaSpilota",
+  "PseudechisPorphyriacus",
+  "BoigaIrregularis",
+  "PseudonajaTextilis",
+];
+
 export const SnakeDetectorModelContextProvider = ({ children }) => {
   const [snakeDetector, setSnakeDetector] = useState(null);
   useEffect(() => {

@@ -16,6 +16,7 @@ import { Buffer } from "buffer";
 import { useSnakeDetectorModel } from "../context/SnakeDetectorModelContext";
 import * as ImagePicker from "expo-image-picker";
 import { PinchGestureHandler } from "react-native-gesture-handler";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const Cam = () => {
   const { snakeDetector } = useSnakeDetectorModel();
@@ -60,41 +61,35 @@ const Cam = () => {
     return;
   }
 
-  const imageToTensor = (rawImageData) => {
-    //Function to convert jpeg image to tensors
-    const TO_UINT8ARRAY = true;
-    const { width, height, data } = jpeg.decode(rawImageData, TO_UINT8ARRAY);
-    // Drop the alpha channel info for mobilenet
-    const buffer = new Uint8Array(width * height * 3);
-    let offset = 0; // offset into original data
-    for (let i = 0; i < buffer.length; i += 3) {
-      buffer[i] = data[offset];
-      buffer[i + 1] = data[offset + 1];
-      buffer[i + 2] = data[offset + 2];
-      offset += 4;
-    }
-    return tf.tensor3d(buffer, [height, width, 3]);
-  };
-
   const processImage = async (imageUri) => {
-    const binaryFile = Buffer.from(imageUri, "base64");
-    const imageTensor = imageToTensor(binaryFile)
-      .resizeBilinear([226, 226])
-      .reshape([-1, 226, 226, 3]);
-    // Predict snake
-    const res = await snakeDetector.predict(imageTensor);
-    console.log("Result", res);
+    try {
+      const binaryFile = Buffer.from(imageUri, "base64");
+      const TO_UINT8ARRAY = true;
+      const { width, height, data } = jpeg.decode(binaryFile, TO_UINT8ARRAY);
+      const imageTensor = await tf.browser.fromPixels({ data, width, height });
+      // // Predict snake
+      const res = await snakeDetector.predict(imageTensor.expandDims(0));
+      const data = res.argMax(-1).dataSync();
+      return { data };
+    } catch (error) {
+      return { error: error.message };
+    }
   };
 
   //data is the pic obj!!
   const onSnap = async () => {
     if (cameraRef.current) {
-      const options = { quality: 0.5, base64: true };
-      const data = await cameraRef.current.takePictureAsync(options);
-      const source = data.base64;
-
+      const options = { base64: true };
+      const data = await cameraRef.current.takePictureAsync();
+      // const source = data.base64;
+      const resizedPhoto = await ImageManipulator.manipulateAsync(
+        data.uri,
+        [{ resize: { width: 226, height: 226 } }], // resize to width of 300 and preserve aspect ratio
+        { compress: 0.5, base64: true }
+      );
+      const source = resizedPhoto.base64;
       if (source) {
-        await processImage(source);
+        const result = await processImage(source); // if successful, prediction is in result.data // otherwise, error message is in result.error
         setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
         setIsPreview(true);
@@ -117,8 +112,8 @@ const Cam = () => {
         return;
       }
 
-      const options = { quality: 0.5, base64: true };
-      const data = await ImagePicker.launchImageLibraryAsync(options);
+      const options = { quality: 0.5, base64: true, res };
+      const data = await ImagePicker.launchImageLibraryAsync({});
       const source = data.base64;
 
       if (data.cancelled === true) {
