@@ -31,10 +31,15 @@ const Cam = () => {
   const [isCameraReady, setIsCameraReady] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [zoomScale, setzoomScale] = useState(0);
+  const [loadingMessage, setLoadingMessage] = useState(null);
 
   useEffect(() => {
     onHandlePermission();
   }, []);
+
+  useEffect(() => {
+    if (loadingMessage) console.log(loadingMessage);
+  }, [loadingMessage]);
 
   const onHandlePermission = async () => {
     const { status } = await Camera.requestPermissionsAsync();
@@ -71,17 +76,22 @@ const Cam = () => {
       const { width, height, data } = jpeg.decode(binaryFile, TO_UINT8ARRAY);
       const imageTensor = await tf.browser.fromPixels({ data, width, height });
       // // Predict snake
+      setLoadingMessage("Running prediction.");
+
       const res = await snakeDetector.predict(imageTensor.expandDims(0));
       const prediction = snakeLabels[res.argMax(-1).dataSync()[0]];
       return { prediction };
     } catch (error) {
       return { error: error.message };
+    } finally {
+      setLoadingMessage(null);
     }
   };
 
   //data is the pic obj!!
   const onSnap = async () => {
     if (cameraRef.current) {
+      setLoadingMessage("Preparing image.");
       const data = await cameraRef.current.takePictureAsync();
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         data.uri,
