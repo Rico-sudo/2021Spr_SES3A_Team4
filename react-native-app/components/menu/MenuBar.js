@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 20,
-    fontFamily: 'Avenir-Medium'
+    fontFamily: 'Verdana'
   },
   logo: {
     width: 40,
