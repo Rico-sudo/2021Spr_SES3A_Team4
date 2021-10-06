@@ -19,16 +19,25 @@ class History extends Component {
     
       <ScrollView>
     <View style={styles.container}>
-    <View><Text>------------------------------------</Text></View>
+    <View><Text>................................................................</Text></View>
     <View>
  
-        <Text style={styles.heading} ><AntDesign name="questioncircleo" size={24} color="black" />  Help</Text>
+        <Text style={styles.heading} ><AntDesign name="customerservice" size={24} color="grey" />  Help</Text>
     </View>
-    <View><Text>------------------------------------</Text></View>
+    <View><Text>................................................................</Text></View>
     
     
     <View style={styles.info}>
       <Text style={styles.infoText}>    App instructions.....</Text>
+    </View>
+    <View style={styles.infoCard}>
+       <InfoCard/>
+    </View>
+    <View style={styles.infoCard}>
+       <InfoCard/>
+    </View>
+    <View style={styles.infoCard}>
+       <InfoCard/>
     </View>
     <View style={styles.infoCard}>
        <InfoCard/>
@@ -49,21 +58,22 @@ const styles = StyleSheet.create({
   
   heading:{
       fontSize: 25,
+      color: 'dimgrey'
       
   },
   info: {
  
-      width: 320,
-      height: 250,
-      backgroundColor: 'grey',
+      width: 325,
+      height: 120,
+      backgroundColor: 'white',
       borderRadius: 20,
       alignContent: 'center',
       justifyContent: 'center',
       shadowColor: '#37373737',
       shadowOffset: { width: 0, height: 3, },
-      shadowOpacity: 1,
+      shadowOpacity: 5,
       shadowRadius: 5,
-      margin: 15,
+      margin: 30,
     
   },
   infoText:{
@@ -72,10 +82,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   infoCard:{
-    marginVertical: 20,
+    marginVertical: 30,
     borderColor:"skyblue",
     alignItems : "center",
     alignContent: "center"
+
   }
 })
  
