@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet } from 'react-native';
+import {View, StyleSheet, ColorPropType, color } from 'react-native';
 import {
 Avatar,
 Title,
@@ -20,14 +20,30 @@ export function DrawerContent(props){
     return(
         <View style={{flex:1}}>
           <DrawerContentScrollView {...props}>
-            <View>
-                <Text>Main Content</Text>
+            <View style={styles.drawerContent}>
+                <view style={styles.userInfoSection}>
+                  <View>
+                    <Avatar.Image
+                    source={{
+
+                    }}
+                    size={50}
+                    />
+                  </View>
+                </view>
             </View>
           </DrawerContentScrollView>
           <DrawerSection style= {styles.bottomDrawerSection}>
             <DrawerItem 
-            icon={}
+            icon={({color, size})} => (
+            <Icon 
+            name = "exist- to-app"
+            color={color}
+            size={size}
+            />
+            )}
             label="Sign Out"
+            onPress={() => {}}
             />
           </DrawerSection>
         </View>
@@ -78,4 +94,5 @@ const styles = StyleSheet.create({
       paddingVertical: 12,
       paddingHorizontal: 16,
     },
+
   });
