@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Animated,
+  Alert,
 } from "react-native";
 import { Camera } from "expo-camera";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
@@ -80,7 +81,22 @@ const Cam = () => {
 
       const res = await snakeDetector.predict(imageTensor.expandDims(0));
       const prediction = snakeLabels[res.argMax(-1).dataSync()[0]];
-      return { prediction };
+      let snakeName = '';
+
+      if (prediction == 'BoigaIrregularis') {
+        snakeName = 'Brown tree snake (3/10 danger rating)';
+      } else if (prediction == 'PseudechisPorphyriacus') {
+        snakeName = 'Red-bellied black snake';
+      } else if (prediction == 'NotechisScutatus') {
+        snakeName = 'Tiger snake (9/10 danger rating)';
+      } else if (prediction == 'PseudonajaTextilis') {
+        snakeName = 'Eastern brown snake (10/10 danger rating)';
+      } else if (prediction == 'DendrelaphisPunctulatus') {
+        snakeName = 'Green tree snake (1/10 danger rating)';
+      } else if (prediction == 'MoreliaSpilota') {
+        snakeName = 'Carpet python (3/10 danger rating)';
+      }
+      return { snakeName };
     } catch (error) {
       return { error: error.message };
     } finally {
@@ -101,10 +117,32 @@ const Cam = () => {
       const source = resizedPhoto.base64;
       if (source) {
         const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
-        if (result.prediction) {
-          console.log("Predicted snake", result.prediction);
+        if (result.snakeName) {
+          console.log("Predicted snake", result.snakeName);
+          Alert.alert(
+            "Snake detected",
+            result.snakeName,
+            [
+              {
+                text: "Cancel",
+                style: "cancel"
+              },
+              { text: "OK", onPress: cancelPreview }
+            ]
+          );
         } else {
           console.log("Error", result.error);
+          Alert.alert(
+            "Error, no snake detected",
+            "Please wait for model to load",
+            [
+              {
+                text: "Cancel",
+                style: "cancel"
+              },
+              { text: "OK", onPress: cancelPreview }
+            ]
+          );
         }
 
         setSelectedImage({ localUri: data.uri });
