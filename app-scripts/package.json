@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "push-metadata": "node src/pushMetadata.ts"
+    "push-metadata": "node src/pushMetadata.ts",
+    "update-data": "node src/updateSnakeData.ts"
   },
   "author": "",
   "license": "ISC",
