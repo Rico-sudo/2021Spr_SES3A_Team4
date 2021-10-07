@@ -86,7 +86,7 @@ const Cam = () => {
       if (prediction == 'BoigaIrregularis') {
         snakeName = 'Brown tree snake (3/10 danger rating)';
       } else if (prediction == 'PseudechisPorphyriacus') {
-        snakeName = 'Red-bellied black snake';
+        snakeName = 'Red-bellied black snake (6/10 danger rating)';
       } else if (prediction == 'NotechisScutatus') {
         snakeName = 'Tiger snake (9/10 danger rating)';
       } else if (prediction == 'PseudonajaTextilis') {
@@ -167,15 +167,51 @@ const Cam = () => {
         return;
       }
 
-      const options = { quality: 0.5, base64: true, res };
       const data = await ImagePicker.launchImageLibraryAsync({});
-      const source = data.base64;
+      const resizedPhoto = await ImageManipulator.manipulateAsync(
+        data.uri,
+        [{ resize: { width: 226, height: 226 } }],
+        { compress: 0.5, base64: true }
+      );
+      const source = resizedPhoto.base64;
 
       if (data.cancelled === true) {
         return;
       }
 
       if (source) {
+        setSelectedImage({ localUri: data.uri });
+        await cameraRef.current.pausePreview();
+        setIsPreview(true);
+        const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
+        if (result.snakeName) {
+          console.log("Predicted snake", result.snakeName);
+          Alert.alert(
+            "Snake detected",
+            result.snakeName,
+            [
+              {
+                text: "Cancel",
+                style: "cancel"
+              },
+              { text: "OK", onPress: cancelPreview }
+            ]
+          );
+        } else {
+          console.log("Error", result.error);
+          Alert.alert(
+            "Error, no snake detected",
+            "Please wait for model to load",
+            [
+              {
+                text: "Cancel",
+                style: "cancel"
+              },
+              { text: "OK", onPress: cancelPreview }
+            ]
+          );
+        }
+
         setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
         setIsPreview(true);
