@@ -27,7 +27,7 @@ class Search extends Component {
   renderSearchResults(results) {
     if (this.state.loading) return <Text>Loading...</Text>;
     if (results.length === 0) return <Text>No results found.</Text>;
-    return results.map((snake) => <InfoCard key={snake._id} {...snake} />);
+    return results.map((snake, index) => <InfoCard snake={snake._id} key={index} {...snake} />);
   }
 
   render() {
