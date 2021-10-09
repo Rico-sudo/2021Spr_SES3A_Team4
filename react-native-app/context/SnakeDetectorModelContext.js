@@ -6,14 +6,7 @@ const SnakeDetectorModelContext = createContext({
   snakeDetector: null,
 });
 
-export const snakeLabels = [
-  "NotechisScutatus",
-  "DendrelaphisPunctulatus",
-  "MoreliaSpilota",
-  "PseudechisPorphyriacus",
-  "BoigaIrregularis",
-  "PseudonajaTextilis",
-];
+export const snakeClassIds = ["486", "216", "453", "578", "71", "590"];
 
 export const SnakeDetectorModelContextProvider = ({ children }) => {
   const [snakeDetector, setSnakeDetector] = useState(null);

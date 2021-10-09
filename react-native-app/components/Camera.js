@@ -16,14 +16,19 @@ import * as tf from "@tensorflow/tfjs";
 import { Buffer } from "buffer";
 import {
   useSnakeDetectorModel,
-  snakeLabels,
+  snakeClassIds,
 } from "../context/SnakeDetectorModelContext";
 import * as ImagePicker from "expo-image-picker";
 import { PinchGestureHandler } from "react-native-gesture-handler";
 import * as ImageManipulator from "expo-image-manipulator";
+import { getSnakeDetails } from "./../services/fetchSnakeDetails";
+import LoadingModal from "./Modal/LoadingModal";
 
 const Cam = () => {
   const { snakeDetector } = useSnakeDetectorModel();
+
+  // Loading modal
+  const [openLoader, setOpenLoader] = useState(false);
 
   const cameraRef = useRef();
   const [hasPermission, setHasPermission] = useState(null);
@@ -80,26 +85,16 @@ const Cam = () => {
       setLoadingMessage("Running prediction.");
 
       const res = await snakeDetector.predict(imageTensor.expandDims(0));
-      const prediction = snakeLabels[res.argMax(-1).dataSync()[0]];
-      let snakeName = '';
+      const predictedClassId = snakeClassIds[res.argMax(-1).dataSync()[0]];
 
-      if (prediction == 'BoigaIrregularis') {
-        snakeName = 'Brown tree snake (3/10 danger rating)';
-      } else if (prediction == 'PseudechisPorphyriacus') {
-        snakeName = 'Red-bellied black snake (6/10 danger rating)';
-      } else if (prediction == 'NotechisScutatus') {
-        snakeName = 'Tiger snake (9/10 danger rating)';
-      } else if (prediction == 'PseudonajaTextilis') {
-        snakeName = 'Eastern brown snake (10/10 danger rating)';
-      } else if (prediction == 'DendrelaphisPunctulatus') {
-        snakeName = 'Green tree snake (1/10 danger rating)';
-      } else if (prediction == 'MoreliaSpilota') {
-        snakeName = 'Carpet python (3/10 danger rating)';
-      }
-      return { snakeName };
+      const { data: predictedSnakeDetails } = await getSnakeDetails(
+        predictedClassId
+      );
+      return { predictedSnakeDetails };
     } catch (error) {
       return { error: error.message };
     } finally {
+      setOpenLoader(false);
       setLoadingMessage(null);
     }
   };
@@ -107,6 +102,7 @@ const Cam = () => {
   //data is the pic obj!!
   const onSnap = async () => {
     if (cameraRef.current) {
+      setOpenLoader(true);
       setLoadingMessage("Preparing image.");
       const data = await cameraRef.current.takePictureAsync();
       const resizedPhoto = await ImageManipulator.manipulateAsync(
@@ -117,33 +113,7 @@ const Cam = () => {
       const source = resizedPhoto.base64;
       if (source) {
         const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
-        if (result.snakeName) {
-          console.log("Predicted snake", result.snakeName);
-          Alert.alert(
-            "Snake detected",
-            result.snakeName,
-            [
-              {
-                text: "Cancel",
-                style: "cancel"
-              },
-              { text: "OK", onPress: cancelPreview }
-            ]
-          );
-        } else {
-          console.log("Error", result.error);
-          Alert.alert(
-            "Error, no snake detected",
-            "Please wait for model to load",
-            [
-              {
-                text: "Cancel",
-                style: "cancel"
-              },
-              { text: "OK", onPress: cancelPreview }
-            ]
-          );
-        }
+        console.log(result);
 
         setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
@@ -186,17 +156,13 @@ const Cam = () => {
         const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
         if (result.snakeName) {
           console.log("Predicted snake", result.snakeName);
-          Alert.alert(
-            "Snake detected",
-            result.snakeName,
-            [
-              {
-                text: "Cancel",
-                style: "cancel"
-              },
-              { text: "OK", onPress: cancelPreview }
-            ]
-          );
+          Alert.alert("Snake detected", result.snakeName, [
+            {
+              text: "Cancel",
+              style: "cancel",
+            },
+            { text: "OK", onPress: cancelPreview },
+          ]);
         } else {
           console.log("Error", result.error);
           Alert.alert(
@@ -205,9 +171,9 @@ const Cam = () => {
             [
               {
                 text: "Cancel",
-                style: "cancel"
+                style: "cancel",
               },
-              { text: "OK", onPress: cancelPreview }
+              { text: "OK", onPress: cancelPreview },
             ]
           );
         }
@@ -251,6 +217,11 @@ const Cam = () => {
       onHandlerStateChange={(e) => onZoomStateChange(e)}
     >
       <View style={styles.container}>
+        <LoadingModal
+          modalVisible={openLoader}
+          setModalVisible={setOpenLoader}
+          message={loadingMessage}
+        />
         <Camera
           ref={cameraRef}
           style={styles.container}
