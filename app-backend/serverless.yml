@@ -24,10 +24,10 @@ functions:
           path: autocompleteSearchAustralianSnakes
           method: get
   getSnakeDetails:
-    handler: handler.autocompleteSearchAustralianSnakes
+    handler: handler.getSnakeDetails
     events:
       - http:
-          path: autocompleteSearchAustralianSnakes
+          path: getSnakeDetails
           method: get
 custom:
   # serverless offline plugin setup
