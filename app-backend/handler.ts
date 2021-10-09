@@ -82,7 +82,7 @@ export async function getSnakeDetails(
     const db = await connectToDatabase();
     const australianSnakes = await db.collection("Australia");
 
-    const snakeDetails = australianSnakes.findOne({ classId });
+    const snakeDetails = await australianSnakes.findOne({ classId });
 
     return {
       statusCode: 200,
