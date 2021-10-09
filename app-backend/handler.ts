@@ -70,3 +70,28 @@ export async function autocompleteSearchAustralianSnakes(
     };
   }
 }
+
+export async function getSnakeDetails(
+  event: APIGatewayEvent,
+  context: Context
+): Promise<APIGatewayProxyResult> {
+  context.callbackWaitsForEmptyEventLoop = false;
+  const { classId } = event && event.queryStringParameters;
+
+  try {
+    const db = await connectToDatabase();
+    const australianSnakes = await db.collection("Australia");
+
+    const snakeDetails = australianSnakes.findOne({ classId });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(snakeDetails),
+    };
+  } catch (error) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(error),
+    };
+  }
+}

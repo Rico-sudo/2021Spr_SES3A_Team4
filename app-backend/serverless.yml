@@ -23,6 +23,12 @@ functions:
       - http:
           path: autocompleteSearchAustralianSnakes
           method: get
+  getSnakeDetails:
+    handler: handler.autocompleteSearchAustralianSnakes
+    events:
+      - http:
+          path: autocompleteSearchAustralianSnakes
+          method: get
 custom:
   # serverless offline plugin setup
   serverless-offline:
