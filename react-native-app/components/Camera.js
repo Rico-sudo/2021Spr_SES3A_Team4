@@ -38,14 +38,11 @@ const Cam = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [zoomScale, setzoomScale] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState(null);
+  const [resultObject, setResultObject] = useState(null);
 
   useEffect(() => {
     onHandlePermission();
   }, []);
-
-  useEffect(() => {
-    if (loadingMessage) console.log(loadingMessage);
-  }, [loadingMessage]);
 
   const onHandlePermission = async () => {
     const { status } = await Camera.requestPermissionsAsync();
@@ -102,9 +99,9 @@ const Cam = () => {
   //data is the pic obj!!
   const onSnap = async () => {
     if (cameraRef.current) {
+      const data = await cameraRef.current.takePictureAsync();
       setOpenLoader(true);
       setLoadingMessage("Preparing image.");
-      const data = await cameraRef.current.takePictureAsync();
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         data.uri,
         [{ resize: { width: 226, height: 226 } }],
@@ -113,7 +110,7 @@ const Cam = () => {
       const source = resizedPhoto.base64;
       if (source) {
         const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
-        console.log(result);
+        setResultObject(result.predictedSnakeDetails);
 
         setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
@@ -125,6 +122,7 @@ const Cam = () => {
     await cameraRef.current.resumePreview();
     setSelectedImage(null);
     setIsPreview(false);
+    setResultObject(null);
   };
 
   let openImagePickerAsync = async () => {
@@ -136,7 +134,8 @@ const Cam = () => {
         alert("Permission to access camera roll is required!");
         return;
       }
-
+      setOpenLoader(true);
+      setLoadingMessage("Preparing image.");
       const data = await ImagePicker.launchImageLibraryAsync({});
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         data.uri,
@@ -154,29 +153,7 @@ const Cam = () => {
         await cameraRef.current.pausePreview();
         setIsPreview(true);
         const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
-        if (result.snakeName) {
-          console.log("Predicted snake", result.snakeName);
-          Alert.alert("Snake detected", result.snakeName, [
-            {
-              text: "Cancel",
-              style: "cancel",
-            },
-            { text: "OK", onPress: cancelPreview },
-          ]);
-        } else {
-          console.log("Error", result.error);
-          Alert.alert(
-            "Error, no snake detected",
-            "Please wait for model to load",
-            [
-              {
-                text: "Cancel",
-                style: "cancel",
-              },
-              { text: "OK", onPress: cancelPreview },
-            ]
-          );
-        }
+        setResultObject(result.predictedSnakeDetails);
 
         setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
@@ -230,10 +207,37 @@ const Cam = () => {
           onCameraReady={onCameraReady}
         />
         {selectedImage && (
-          <Image
-            source={{ uri: selectedImage.localUri }}
-            style={styles.pickedImage}
-          />
+          <View style={{ flex: 1 }}>
+            <Image
+              source={{ uri: selectedImage.localUri }}
+              style={styles.pickedImage}
+            />
+            <View
+              style={{
+                backgroundColor: "white",
+                padding: 20,
+                paddingRight: "20%",
+              }}
+            >
+              <Text style={styles.resultText}>{resultObject?.commonName}</Text>
+              <Text
+                style={styles.resultSubText}
+              >{`Scientific Name: ${resultObject?.scientificName}`}</Text>
+              <Text
+                style={[
+                  styles.resultSubText,
+                  {
+                    color:
+                      resultObject?.dangerRating < 4
+                        ? "green"
+                        : resultObject?.dangerRating < 8
+                        ? "yellow"
+                        : "red",
+                  },
+                ]}
+              >{`Danger Rating: ${resultObject?.dangerRating}/10`}</Text>
+            </View>
+          </View>
         )}
         <View style={styles.container}>
           {isPreview && (
@@ -282,13 +286,11 @@ const Cam = () => {
 
 const styles = StyleSheet.create({
   pickedImage: {
-    flex: 1,
-    height: undefined,
-    width: undefined,
+    resizeMode: "contain",
   },
   closeButton: {
     position: "absolute",
-    top: 35,
+    top: 20,
     right: 20,
     height: 50,
     width: 50,
@@ -297,6 +299,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FF0000",
     opacity: 0.7,
+    zIndex: 5000,
   },
   capture: {
     left: 10,
@@ -315,6 +318,17 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
+  },
+  resultText: {
+    fontWeight: "bold",
+    fontSize: 20,
+    fontFamily: "Avenir-Medium",
+    marginBottom: 5,
+  },
+  resultSubText: {
+    fontSize: 16,
+    fontFamily: "Avenir-Medium",
+    marginTop: 5,
   },
 });
 
