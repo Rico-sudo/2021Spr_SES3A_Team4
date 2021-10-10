@@ -46,14 +46,18 @@ export async function autocompleteSearchAustralianSnakes(
     const searchGenus = australianSnakes
       .aggregate(getAggregationPipeline("genus"))
       .toArray();
-    const searchFamily = australianSnakes
-      .aggregate(getAggregationPipeline("family"))
-      .toArray();
     const searchName = australianSnakes
       .aggregate(getAggregationPipeline("scientificName"))
       .toArray();
+    const searchCommonName = australianSnakes
+      .aggregate(getAggregationPipeline("commonName"))
+      .toArray();
 
-    const results = await Promise.all([searchGenus, searchFamily, searchName]);
+    const results = await Promise.all([
+      searchGenus,
+      searchName,
+      searchCommonName,
+    ]);
     const sortedTop10Results = (results as any)
       .flat()
       .sort((a, b) => (a.score > b.score ? -1 : b.score > a.score ? 1 : 0))
