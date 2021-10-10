@@ -231,7 +231,7 @@ const Cam = () => {
                       resultObject?.dangerRating < 4
                         ? "green"
                         : resultObject?.dangerRating < 8
-                        ? "yellow"
+                        ? "orange"
                         : "red",
                   },
                 ]}
