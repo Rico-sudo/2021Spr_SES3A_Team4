@@ -4,6 +4,7 @@ import { REACT_APP_SERVERLESS_API_ENDPOINT } from "@env";
 
 const autocompleteSearchAustralianSnakes = (query) => {
   let uri = `${REACT_APP_SERVERLESS_API_ENDPOINT}autocompleteSearchAustralianSnakes?query=${query}`;
+  console.log(uri);
   return axios.get(uri, { timeout: 10000 });
 };
 

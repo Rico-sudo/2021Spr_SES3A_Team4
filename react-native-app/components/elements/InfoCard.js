@@ -19,6 +19,21 @@ class InfoCard extends Component {
   render() {
     return (
       <View style={styles.infoCard}>
+        {this.props.commonName && (
+          <View style={styles.nameContainer}>
+            <Text style={styles.resultSubText}>{this.props.commonName}</Text>
+            <Text
+              style={{
+                color:
+                  this.props.dangerRating < 4
+                    ? "green"
+                    : this.props.dangerRating < 8
+                    ? "orange"
+                    : "red",
+              }}
+            >{`${this.props.dangerRating}/10`}</Text>
+          </View>
+        )}
         {this.displaySection("Scientific Name", this.props.scientificName)}
         {this.displaySection("Family", this.props.family)}
         {this.displaySection("Genus", this.props.genus)}
@@ -30,7 +45,7 @@ class InfoCard extends Component {
 const styles = StyleSheet.create({
   infoCard: {
     width: 320,
-    height: 140,
+    height: "auto",
     backgroundColor: "#FEFEFE",
     borderRadius: 20,
     alignContent: "center",
@@ -41,6 +56,17 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     margin: 15,
     padding: 20,
+  },
+  resultSubText: {
+    fontSize: 20,
+    fontFamily: "Avenir-Medium",
+    marginBottom: 5,
+    fontWeight: "bold",
+  },
+  nameContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
