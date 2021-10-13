@@ -82,12 +82,11 @@ const Cam = () => {
       setLoadingMessage("Running prediction.");
 
       const res = await snakeDetector.predict(imageTensor.expandDims(0));
-      console.log(res.arraySync());
+      const probability = Math.max(...res.arraySync()[0]);
       const predictedClassId = snakeClassIds[res.argMax(-1).dataSync()[0]];
 
-      const { data: predictedSnakeDetails } = await getSnakeDetails(
-        predictedClassId
-      );
+      const { data: snakeDetails } = await getSnakeDetails(predictedClassId);
+      const predictedSnakeDetails = { probability, ...snakeDetails };
       return { predictedSnakeDetails };
     } catch (error) {
       return { error: error.message };
@@ -218,7 +217,9 @@ const Cam = () => {
                 paddingRight: "20%",
               }}
             >
-              <Text style={styles.resultText}>{resultObject?.commonName}</Text>
+              <Text style={styles.resultText}>{`${resultObject?.commonName} (${
+                resultObject?.probability.toFixed(2) * 100
+              }%)`}</Text>
               <Text
                 style={styles.resultSubText}
               >{`Scientific Name: ${resultObject?.scientificName}`}</Text>
