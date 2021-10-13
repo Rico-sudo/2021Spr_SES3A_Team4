@@ -1,0 +1,22 @@
+
+Scenario 1
+Navigate to Camera Page - Fail/Pass
+Validate user can scan with their camera - Fail/Pass
+
+Scenario 2
+Validate flip camera option is displayed to user - Fail/Pass
+
+Scenario 3
+Validate user can upload a photo from their camera roll - Fail/Pass
+
+Scenario 4
+Validate application scans user photo - Fail/Pass
+
+Scenario 5
+Validate application is able to identify snake type with the camera app
+
+
+
+
+
+

@@ -1,0 +1,13 @@
+Scenario 1
+Navigate to History Page Fail/Pass
+Validate History Page appears when user swipes right - Fail/Pass
+
+Scenario 2
+Validate application instructions is displayed to user on History Page- Fail/Pass
+
+Scenario 3
+Validate the help icon directs users to a help screen - Fail/Pass
+
+Scenario 4
+Validate each search is stored into a seperate infocard - Fail/Pass
+
