@@ -82,6 +82,7 @@ const Cam = () => {
       setLoadingMessage("Running prediction.");
 
       const res = await snakeDetector.predict(imageTensor.expandDims(0));
+      console.log(res.arraySync());
       const predictedClassId = snakeClassIds[res.argMax(-1).dataSync()[0]];
 
       const { data: predictedSnakeDetails } = await getSnakeDetails(
@@ -104,7 +105,7 @@ const Cam = () => {
       setLoadingMessage("Preparing image.");
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         data.uri,
-        [{ resize: { width: 226, height: 226 } }],
+        [{ resize: { width: 224, height: 224 } }],
         { compress: 0.5, base64: true }
       );
       const source = resizedPhoto.base64;
@@ -134,12 +135,11 @@ const Cam = () => {
         alert("Permission to access camera roll is required!");
         return;
       }
-      setOpenLoader(true);
-      setLoadingMessage("Preparing image.");
+
       const data = await ImagePicker.launchImageLibraryAsync({});
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         data.uri,
-        [{ resize: { width: 226, height: 226 } }],
+        [{ resize: { width: 224, height: 224 } }],
         { compress: 0.5, base64: true }
       );
       const source = resizedPhoto.base64;
@@ -149,9 +149,8 @@ const Cam = () => {
       }
 
       if (source) {
-        setSelectedImage({ localUri: data.uri });
-        await cameraRef.current.pausePreview();
-        setIsPreview(true);
+        setOpenLoader(true);
+        setLoadingMessage("Preparing image.");
         const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
         setResultObject(result.predictedSnakeDetails);
 
