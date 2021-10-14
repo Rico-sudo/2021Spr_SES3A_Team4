@@ -1,7 +1,8 @@
 Feature: Ensure the functionalities of history page work
-As a user I would like to see my user history
+
+    Background:
+        Given Launch App
     Scenario: Open up the history page
-        Given 
-        And 
-        When 
-        Then 
+        Given Wait for menu: "TabBar"
+        When Click element: "history"
+        Then Wait for element: "History"
