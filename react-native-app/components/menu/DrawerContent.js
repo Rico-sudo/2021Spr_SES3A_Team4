@@ -30,8 +30,16 @@ export function DrawerContent(props){
                     size={50}
                     />
                   </View>
+
+                </view>
+                <view style={{marginLeft: 15, flexDirection:'Column'}}>
+                <Title style={styles.title}> Snake Scanner</Title>
+                </view>
+                <view style={styles.row}>
+           <Paragraph> This app will provide you with most Dangerous Ausralian Snake species </Paragraph>
                 </view>
             </View>
+ 
           </DrawerContentScrollView>
           <DrawerSection style= {styles.bottomDrawerSection}>
             <DrawerItem 
