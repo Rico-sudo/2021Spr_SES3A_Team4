@@ -13,7 +13,9 @@ Scenario 4
 Validate application scans user photo - Fail/Pass
 
 Scenario 5
-Validate application is able to identify snake type with the camera app
+Validate application is able to identify snake type with the camera app Fail/Pass
+
+
 
 
 

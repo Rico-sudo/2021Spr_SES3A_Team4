@@ -1,0 +1,14 @@
+Scenario 1
+Navigate to Search Page Fail/Pass
+Validate History Page appears when user swipes left - Fail/Pass
+
+Scenario 2
+Validate user can type into search bar Fail/Pass
+
+Scenario 3
+Validate results appear for user's search Fail/Pass
+
+
+
+
+
