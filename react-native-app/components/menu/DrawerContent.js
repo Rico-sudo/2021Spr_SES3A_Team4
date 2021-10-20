@@ -17,6 +17,11 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 export function DrawerContent(props){
+
+  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
+  const toggletheme = () => {
+    setIsDarkTheme(!isDarkTheme);
+  }
     return(
         <View style={{flex:1}}>
           <DrawerContentScrollView {...props}>
@@ -45,14 +50,51 @@ export function DrawerContent(props){
             <DrawerItem 
             icon={({color, size})} => (
             <Icon 
-            name = "exist- to-app"
+            name = "home-outline"
             color={color}
             size={size}
             />
             )}
-            label="Sign Out"
+            label="Home"
             onPress={() => {}}
             />
+            <Icon 
+            name = "history-outline"
+            color={color}
+            size={size}
+            />
+            )}
+            label="History"
+            onPress={() => {}}
+            />
+            <Icon 
+            name = "settings-outline"
+            color={color}
+            size={size}
+            />
+            )}
+            label="Settings"
+            onPress={() => {}}
+            />
+            <Icon 
+            name = "camera-outline"
+            color={color}
+            size={size}
+            />
+            )}
+            label="Camera"
+            onPress={() => {}}
+            />
+          </DrawerSection>
+          <DrawerSection title="Preferences">
+            <TouchableRipple onPress={() => {toggleTheme()}}>
+              <View style={styles.preference}>
+                <Text>Dark Theme</Text>
+                <View pointerEvents="none">
+                <Switch value={isDarkTheme}/>
+                </View>
+              </View>
+            </TouchableRipple>
           </DrawerSection>
         </View>
     );
