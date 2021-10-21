@@ -1,0 +1,12 @@
+Is the application working as designed whenever it starts and stops?
+Does the app perform accordingly on various mobile and OS versions?
+Does the app behave accordingly when faced with external interruptions? (ie. receiving SMS, minimized during an incoming phone call, etc)
+Is the user able to download and install the app without issues?
+Is the device able to multitask as expected when the app is in use or running in the background?
+Can other applications perform satisfactorily once the app is installed?
+Are social network options such as sharing, posting, etc. working as required?
+Are mandatory fields working as required?
+Does the app support payment gateway transactions?
+Are page scrolling scenarios working as expected?
+Can you navigate between various modules as expected?
+Are appropriate error messages received as necessary?
