@@ -33,7 +33,6 @@ class Search extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>SEARCH PAGE</Text>
         <SearchBar onChangeText={this.updateSearchQuery} placeholder="Search" />
         <ScrollView>
           {this.state.searchResults &&
@@ -48,6 +47,7 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     alignItems: "center",
+    paddingTop: 10,
   },
 });
 

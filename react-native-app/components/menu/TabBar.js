@@ -1,5 +1,6 @@
 import React, { Component, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { MaterialIcons } from "@expo/vector-icons";
 
 class TabBar extends Component {
   constructor(props) {
@@ -18,13 +19,14 @@ class TabBar extends Component {
         <View style={styles.tabBar}>
             <View style={styles.textHolder}>
                 <TouchableOpacity onPress={() => this.onClickTab(0)}>
-                    <Text style={[styles.search, {fontWeight: this.props.selectedPage === 0 && "bold" || "normal"}]}>Search</Text>
+                    {/* <Text style={[styles.search, {fontWeight: this.props.selectedPage === 0 && "bold" || "normal"}]}>Search</Text> */}
+                    <MaterialIcons style={styles.search} name="search" size={35} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.onClickTab(1)}>
-                    <Text style={[styles.camera, {fontWeight:  this.props.selectedPage === 1 && "bold" || "normal"}]}>Camera</Text>
+                    <Image style={styles.camera} source={require('../../assets/snakescannerheading.png')}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.onClickTab(2)}>
-                    <Text style={[styles.history, {fontWeight:  this.props.selectedPage === 2 && "bold" || "normal"}]}>History</Text>
+                    <MaterialIcons style={styles.history} name="history" size={35} color="white" />
                 </TouchableOpacity>
             </View>
       </View>
@@ -44,21 +46,17 @@ const styles = StyleSheet.create({
         paddingTop: 11,
     },
     camera: {
-        fontSize: 20,
         flex: 2,
-        color: 'white',
+        height: 40,
+        width: 40,
     },
     search: {
-        fontSize: 20,
         flex: 2,
         paddingLeft: 53,
-        color: 'white',
     },
     history: {
-        fontSize: 20,
         flex: 2,
         paddingRight: 53,
-        color: 'white',
     }
 });
 
