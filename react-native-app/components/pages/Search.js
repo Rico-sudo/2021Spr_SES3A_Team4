@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import InfoCard from "../elements/InfoCard";
 import SearchBar from "../elements/SearchBar";
 import { autocompleteSearch } from "./../../services/autocompleteSearchAustralianSnakes";
@@ -25,15 +31,24 @@ class Search extends Component {
   };
 
   renderSearchResults(results) {
-    if (this.state.loading) return <Text>Loading...</Text>;
-    if (results.length === 0) return <Text>No results found.</Text>;
-    return results.map((snake, index) => <InfoCard snake={snake._id} key={index} {...snake} />);
+    if (this.state.loading)
+      return (
+        <ActivityIndicator
+          style={styles.topMargin}
+          size="large"
+          color="#3BB44A"
+        />
+      );
+    if (results.length === 0)
+      return <Text style={styles.topMargin}>No results found.</Text>;
+    return results.map((snake, index) => (
+      <InfoCard snake={snake._id} key={index} {...snake} />
+    ));
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>SEARCH PAGE</Text>
         <SearchBar onChangeText={this.updateSearchQuery} placeholder="Search" />
         <ScrollView>
           {this.state.searchResults &&
@@ -48,6 +63,9 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     alignItems: "center",
+  },
+  topMargin: {
+    marginTop: 10,
   },
 });
 

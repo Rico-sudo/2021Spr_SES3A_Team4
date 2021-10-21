@@ -34,9 +34,13 @@ class InfoCard extends Component {
             >{`${this.props.dangerRating}/10`}</Text>
           </View>
         )}
-        {this.displaySection("Scientific Name", this.props.scientificName)}
-        {this.displaySection("Family", this.props.family)}
-        {this.displaySection("Genus", this.props.genus)}
+        <View>
+          <View>
+            {this.displaySection("Scientific Name", this.props.scientificName)}
+            {this.displaySection("Familys", this.props.family)}
+            {this.displaySection("Genus", this.props.genus)}
+          </View>
+        </View>
       </View>
     );
   }
