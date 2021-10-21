@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 
 class InfoCard extends Component {
   constructor(props) {
@@ -41,6 +41,11 @@ class InfoCard extends Component {
             {this.displaySection("Genus", this.props.genus)}
           </View>
         </View>
+        <Image
+          source={{
+            uri: `https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/${this.props._id}.png`,
+          }}
+        />
       </View>
     );
   }
