@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     },
     camera: {
         flex: 2,
-        height: 40,
-        width: 40,
+        height: 38,
+        width: 38,
     },
     search: {
         flex: 2,
