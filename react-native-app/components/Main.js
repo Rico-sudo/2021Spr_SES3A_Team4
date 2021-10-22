@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: 'white',
     borderTopWidth: 1,
-    borderTopColor: '#bbbbbb',
+    borderTopColor: '#cccccc',
   },
   TabBar: {
     backgroundColor: '#216E21',

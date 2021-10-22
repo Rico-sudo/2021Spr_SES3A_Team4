@@ -255,6 +255,7 @@ const Cam = () => {
               <TouchableOpacity
                 disabled={!isCameraReady}
                 onPress={switchCamera}
+                style={styles.flipCamera}
               >
                 <MaterialIcons name="flip-camera-ios" size={28} color="white" />
               </TouchableOpacity>
@@ -309,9 +310,16 @@ const styles = StyleSheet.create({
     position: "absolute",
     flexDirection: "row",
     bottom: 28,
-    width: "100%",
+    width: "74%",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
+    alignSelf: 'center',
+  },
+  flipCam: {
+    paddingLeft: 53,
+  },
+  gallery: {
+    paddingRight: 53,
   },
   container: {
     ...StyleSheet.absoluteFillObject,

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingTop: 11,
         alignItems: 'center',
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
     },
     camera: {
         flex: 2,
@@ -53,10 +53,12 @@ const styles = StyleSheet.create({
     },
     search: {
         flex: 2,
+        paddingLeft: 53,
         marginTop: 2,
     },
     history: {
         flex: 2,
+        paddingRight: 53,
         marginTop: 2,
     }
 });
