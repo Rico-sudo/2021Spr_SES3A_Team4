@@ -60,22 +60,23 @@ class Main extends Component {
       
       <View style={styles.container}>
          <LinearGradient
-        colors={['#3BB44A', '#016937']}
-        start={{ x: -0.65, y: 0.65 }}
-        end={{ x: 1, y: 1 }}
-        locations={[0,1]}
-        style={styles.container}>
-          <StatusBar barStyle="light-content" />
-          <TopBar />
-          <MenuBar pageName={this.state.pageName} navigation={this.props.navigation}/>
-          <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
-            onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}
-            ref={(viewPager) => {this.viewPager = viewPager}}>
-            {this.views}
-          </PagerView>
-          <TabBar selectedPage={this.state.selected} passToParent={this.childCallBack}/>
-          <BottomBar />
-        </LinearGradient>
+          colors={['#3BB44A', '#016937']}
+          start={{ x: -0.65, y: 0.65 }}
+          end={{ x: 1, y: 1 }}
+          locations={[0,1]}>
+            <StatusBar barStyle="light-content" />
+            <TopBar />
+            <MenuBar pageName={this.state.pageName} navigation={this.props.navigation}/>
+            </LinearGradient>
+            <PagerView style={styles.viewPager, {flex: 3,}} initialPage={1} 
+              onPageSelected={e => this.handlePageNumber(e.nativeEvent.position)}
+              ref={(viewPager) => {this.viewPager = viewPager}}>
+              {this.views}
+            </PagerView>
+          <View style={styles.TabBar}>
+            <TabBar selectedPage={this.state.selected} passToParent={this.childCallBack}/>
+            <BottomBar />
+          </View>
       </View>
     );
   }
@@ -94,13 +95,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
-    borderRadius: 20,
-    borderColor: 'white',
-    borderWidth: 4,
-    borderRadius: 20,
-    overflow: 'hidden',
     backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: '#bbbbbb',
   },
+  TabBar: {
+    backgroundColor: '#216E21',
+    borderTopWidth: 1,
+    borderTopColor: '#bbbbbb',
+  }
 });
 
 export default Main;
