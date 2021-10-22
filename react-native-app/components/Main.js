@@ -39,9 +39,9 @@ class Main extends Component {
   }
 
   views = [
-  <View style={styles.page} key="0"><Search/></View>,
-  <View style={styles.page} key="1"><Cam/></View>,
-  <View style={styles.page} key="2"><History/></View>
+  <View style={styles.page} key="0"><Search navigation={this.props.navigation}/></View>,
+  <View style={styles.page} key="1"><Cam navigation={this.props.navigation}/></View>,
+  <View style={styles.page} key="2"><History navigation={this.props.navigation}/></View>
   ];
 
   handlePageNumber = (position) => {

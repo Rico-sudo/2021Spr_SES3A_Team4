@@ -43,7 +43,7 @@ class Search extends Component {
     if (results.length === 0)
       return <Text style={styles.topMargin}>No results found.</Text>;
     return results.map((snake, index) => (
-      <InfoCard snake={snake._id} key={index} {...snake} />
+      <InfoCard navigation={this.props.navigation} snake={snake._id} key={index} {...snake} />
     ));
   }
 

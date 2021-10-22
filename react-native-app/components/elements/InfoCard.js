@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 class InfoCard extends Component {
   constructor(props) {
@@ -7,45 +7,49 @@ class InfoCard extends Component {
     this.state = {};
   }
 
-  displaySection(sectionName, sectionText) {
+  displaySection(sectionText) {
     return (
-      <View style={{ flexDirection: "column", marginVertical: 5 }}>
-        <Text style={{ fontWeight: "bold" }}>{sectionName}</Text>
+      <View style={{ flexDirection: "column",}}>
         <Text style={{ color: "grey" }}>{sectionText}</Text>
       </View>
     );
   }
 
   render() {
+    console.log(this.props._id);
     return (
       <View style={styles.infoCard}>
-        {this.props.commonName && (
-          <View style={styles.nameContainer}>
-            <Text style={styles.resultSubText}>{this.props.commonName}</Text>
-            <Text
-              style={{
-                color:
-                  this.props.dangerRating < 4
-                    ? "green"
-                    : this.props.dangerRating < 8
-                    ? "orange"
-                    : "red",
-              }}
-            >{`${this.props.dangerRating}/10`}</Text>
-          </View>
-        )}
-        <View>
-          <View>
-            {this.displaySection("Scientific Name", this.props.scientificName)}
-            {this.displaySection("Familys", this.props.family)}
-            {this.displaySection("Genus", this.props.genus)}
-          </View>
-        </View>
-        <Image
+        <Image style={styles.images}
           source={{
-            uri: `https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/${this.props._id}.png`,
+            uri: 'https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/' + this.props._id +'.png',
           }}
         />
+        <View style={styles.info}>
+          {this.props.commonName && (
+            <View style={styles.nameContainer}>
+              <Text style={styles.resultSubText}>{this.props.commonName}</Text>
+            </View>
+          )}
+          <View>
+            <View>
+              {this.displaySection(this.props.scientificName)}
+              {/* {this.displaySection("Familys", this.props.family)}
+              {this.displaySection("Genus", this.props.genus)} */}
+              <Text
+                style={{
+                  color:
+                    this.props.dangerRating < 4
+                      ? "green"
+                      : this.props.dangerRating < 8
+                      ? "orange"
+                      : "red",
+                  marginTop: 10,
+                }}
+              >{`Danger Level: ${this.props.dangerRating}/10`}</Text>
+            </View>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.learnMoreButton} onPress={() => this.props.navigation.navigate('SnakeInfo')}><Text style={styles.learnMoreText}>Learn More</Text></TouchableOpacity>
       </View>
     );
   }
@@ -65,17 +69,38 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     margin: 15,
     padding: 20,
+    flexDirection: 'row',
   },
   resultSubText: {
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: "Avenir-Medium",
-    marginBottom: 5,
     fontWeight: "bold",
   },
   nameContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  images: {
+    height: 100,
+    width: 100,
+    flex: 1,
+    borderRadius: 15,
+  },
+  info: {
+    flex: 2,
+    paddingLeft: 20,
+  },
+  learnMoreButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    padding: 18,
+  },
+  learnMoreText: {
+    fontSize: 14,
+    fontFamily: "Avenir-Medium",
+    fontWeight: "bold",
   },
 });
 

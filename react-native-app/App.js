@@ -5,6 +5,7 @@ import { SnakeDetectorModelContextProvider } from "./context/SnakeDetectorModelC
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Settings from './components/pages/Settings';
+import SnakeInfo from './components/pages/SnakeInfo';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default function App() {
       }}>
         <Stack.Screen name="Home" component={Main} />
         <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="SnakeInfo" component={SnakeInfo} />
       </Stack.Navigator>
       </SnakeDetectorModelContextProvider>
     </NavigationContainer>
