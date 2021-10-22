@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import InfoCard from "../elements/InfoCard";
 import SearchBar from "../elements/SearchBar";

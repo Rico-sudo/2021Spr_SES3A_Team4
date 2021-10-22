@@ -23,7 +23,7 @@ class TabBar extends Component {
                     <MaterialIcons style={styles.search} name="search" size={35} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.onClickTab(1)}>
-                    <Image style={styles.camera} source={require('../../assets/snakescannerheading.png')}/>
+                    <Image style={styles.camera} source={require('../../assets/snakescannerTabIcon.png')}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.onClickTab(2)}>
                     <MaterialIcons style={styles.history} name="history" size={35} color="white" />
