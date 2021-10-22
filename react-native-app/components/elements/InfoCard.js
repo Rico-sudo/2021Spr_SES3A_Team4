@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 
 class InfoCard extends Component {
   constructor(props) {
@@ -34,9 +34,18 @@ class InfoCard extends Component {
             >{`${this.props.dangerRating}/10`}</Text>
           </View>
         )}
-        {this.displaySection("Scientific Name", this.props.scientificName)}
-        {this.displaySection("Family", this.props.family)}
-        {this.displaySection("Genus", this.props.genus)}
+        <View>
+          <View>
+            {this.displaySection("Scientific Name", this.props.scientificName)}
+            {this.displaySection("Familys", this.props.family)}
+            {this.displaySection("Genus", this.props.genus)}
+          </View>
+        </View>
+        <Image
+          source={{
+            uri: `https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/${this.props._id}.png`,
+          }}
+        />
       </View>
     );
   }
