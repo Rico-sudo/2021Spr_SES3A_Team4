@@ -272,20 +272,19 @@ function Cam({ navigation }) {
           )}
           {isPreview && resultObject && (
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("SnakeInfo", {
-                  commonName: resultObject?.commonName,
-                  scientificName: resultObject?.scientificName,
-                  family: resultObject?.family,
-                  genus: resultObject?.genus,
-                  moreInfo: resultObject?.moreInfo,
-                  venomousInfo: resultObject?.venomousInfo,
-                })
-              }
-              style={styles.learnMoreButton}
-            >
-              <Text>Learn More</Text>
-            </TouchableOpacity>
+            onPress={() => navigation.navigate('SnakeInfo', {
+              commonName: resultObject?.commonName, 
+              scientificName: resultObject?.scientificName, 
+              family: resultObject?.family, 
+              genus: resultObject?.genus, 
+              moreInfo: resultObject?.moreInfo, 
+              venomousInfo: resultObject?.venomousInfo, 
+              id: resultObject?._id, 
+              dangerRating: resultObject?.dangerRating})}
+
+            style={styles.learnMoreButton}>
+            <Text>Learn More</Text>
+          </TouchableOpacity>
           )}
           {!isPreview && (
             <View style={styles.bottomButtonsContainer}>

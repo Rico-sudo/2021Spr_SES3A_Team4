@@ -22,6 +22,25 @@ class SnakeInfo extends Component {
     );
   }
 
+  displayDangerRating(sectionName, sectionText) {
+    return (
+      <View style={{ flexDirection: "column", marginVertical: 5 }}>
+        <Text style={{ fontWeight: "bold" }}>{sectionName}</Text>
+        <Text style={{
+                  color:
+                    sectionText < 4
+                      ? "green"
+                      : sectionText < 8
+                      ? "orange"
+                      : "red",
+                  marginTop: 10,
+                  fontWeight: 'bold',
+                  marginBottom: 10,
+                }}>{sectionText}/10</Text>
+      </View>
+    );
+  }
+
   displaySection(sectionName, sectionText) {
     return (
       <View style={{ flexDirection: "column", marginVertical: 5 }}>
@@ -36,7 +55,7 @@ class SnakeInfo extends Component {
   }
 
   render() {
-    const { commonName, scientificName, family, genus, moreInfo, venomousInfo, id } = this.props.route.params;
+    const { commonName, scientificName, family, genus, moreInfo, venomousInfo, id, dangerRating } = this.props.route.params;
     console.log(commonName);
     return (
     <View>
@@ -61,6 +80,7 @@ class SnakeInfo extends Component {
                 {this.displayDetails("Scientific Name", scientificName)}
                 {this.displayDetails("Familys", family)}
                 {this.displayDetails("Genus", genus)}
+                {this.displayDangerRating("Danger Level", dangerRating)}
             </View>
             <View>
             <Image style={styles.images}

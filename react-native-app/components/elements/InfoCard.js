@@ -69,6 +69,8 @@ class InfoCard extends Component {
                 genus: this.props.genus,
                 moreInfo: this.props.moreInfo,
                 venomousInfo: this.props.venomousInfo,
+                id: this.props._id, 
+                dangerRating: this.props.dangerRating,
               })
             }
           >
