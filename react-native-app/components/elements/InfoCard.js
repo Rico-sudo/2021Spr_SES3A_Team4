@@ -46,7 +46,7 @@ class InfoCard extends Component {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.learnMoreButton} onPress={() => this.props.navigation.navigate('SnakeInfo', {commonName: this.props.commonName, scientificName: this.props.scientificName, family: this.props.family, genus: this.props.genus, moreInfo: this.props.moreInfo, venomousInfo: this.props.venomousInfo, id: this.props._id})}><Text style={styles.learnMoreText}>Learn More</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.learnMoreButton} onPress={() => this.props.navigation.navigate('SnakeInfo', {commonName: this.props.commonName, scientificName: this.props.scientificName, family: this.props.family, genus: this.props.genus, moreInfo: this.props.moreInfo, venomousInfo: this.props.venomousInfo, id: this.props._id, dangerRating: this.props.dangerRating})}><Text style={styles.learnMoreText}>Learn More</Text></TouchableOpacity>
       </View>
     );
   }
