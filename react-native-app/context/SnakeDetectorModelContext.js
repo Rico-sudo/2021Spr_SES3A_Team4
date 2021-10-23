@@ -68,10 +68,23 @@ export const SnakeDetectorModelContextProvider = ({ children }) => {
     if (snakeDataHistory) storeData();
   }, [snakeDataHistory]);
 
+  const clearHistory = () => {
+    const clear = async () => {
+      try {
+        setSnakeDataHistory(null);
+        await AsyncStorage.removeItem(SNAKE_DATA_HISTORY_KEY);
+      } catch (e) {
+        console.log("Local Storage Storage Error", e.message);
+      }
+    };
+    clear();
+  };
+
   const snakeDetectorModelContext = {
     snakeDetector,
     snakeDataHistory,
     storeSnakeDataToHistory,
+    clearHistory,
   };
 
   return (
