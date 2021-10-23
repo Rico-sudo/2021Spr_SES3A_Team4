@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, StatusBar, useColorScheme, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, StatusBar, useColorScheme, TouchableOpacity, Dimensions, ScrollView, Image} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from "@expo/vector-icons";
 import TopBar from '../menu/TopBar';
@@ -14,7 +14,7 @@ class SnakeInfo extends Component {
   }
 
   render() {
-    const { commonName, scientificName, family, genus, moreInfo, venomousInfo } = this.props.route.params;
+    const { commonName, scientificName, family, genus, moreInfo, venomousInfo, id } = this.props.route.params;
     console.log(commonName);
     return (
     <View>
@@ -33,10 +33,21 @@ class SnakeInfo extends Component {
          </View>
          </LinearGradient>
          <ScrollView style={styles.scrollView}>
-            <Text>{commonName}</Text>
-            <Text>{scientificName}</Text>
-            <Text>{family}</Text>
-            <Text>{genus}</Text>
+            <View style={{flexDirection: 'row'}}>
+            <View>
+                <Text style={styles.commonName}>{commonName}</Text>
+                <Text>Scientific Name: {scientificName}</Text>
+                <Text>{family}</Text>
+                <Text>{genus}</Text>
+            </View>
+            <View>
+            <Image style={styles.images}
+                source={{
+                    uri: 'https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/' + id +'.png',
+                }}
+            />
+            </View>
+           </View>
             <Text>{moreInfo}</Text>
             <Text>{venomousInfo}</Text>
             <Text>ADDITIONAL RESOURCES</Text>
@@ -66,12 +77,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Avenir-Medium',
     alignSelf: 'center',
   },
+  images: {
+      height: 100,
+      width: 100,
+  },
   commonName: {
     color: 'black',
     fontWeight: 'bold',
     fontSize: 20,
     fontFamily: 'Avenir-Medium',
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
   },
   scrollView: {
     padding: 15,
