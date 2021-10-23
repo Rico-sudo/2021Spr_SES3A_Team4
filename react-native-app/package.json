@@ -30,11 +30,13 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-credit-card-input": "^0.4.1",
     "react-native-dotenv": "^3.2.0",
     "react-native-dropdown-picker": "^5.2.0",
     "react-native-fs": "^2.18.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-pager-view": "5.0.12",
+    "react-native-payment-card": "^1.0.61",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-web": "~0.13.12"
