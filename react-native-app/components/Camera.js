@@ -25,8 +25,8 @@ import { getSnakeDetails } from "./../services/fetchSnakeDetails";
 import LoadingModal from "./Modal/LoadingModal";
 import InfoCard from "./elements/InfoCard";
 
-function Cam ({navigation}) {
-  const { snakeDetector } = useSnakeDetectorModel();
+function Cam({ navigation }) {
+  const { snakeDetector, storeSnakeDataToHistory } = useSnakeDetectorModel();
 
   // Loading modal
   const [openLoader, setOpenLoader] = useState(false);
@@ -112,6 +112,11 @@ function Cam ({navigation}) {
       if (source) {
         const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
         setResultObject(result.predictedSnakeDetails);
+
+        // Store to history
+        if (result.predictedSnakeDetails) {
+          storeSnakeDataToHistory(result.predictedSnakeDetails);
+        }
 
         setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
@@ -211,34 +216,36 @@ function Cam ({navigation}) {
               source={{ uri: selectedImage.localUri }}
               style={styles.pickedImage}
             />
-            <View
-              style={styles.infoCard}
-            >
-            {resultObject ? (
-              <View>
-              <Text style={styles.resultText}>{`${resultObject?.commonName} (${
-                resultObject?.probability.toFixed(2) * 100
-              }%)`}
-              </Text>
-              <Text
-                style={styles.resultSubText}
-              >{resultObject?.scientificName}
-              </Text>
-              <Text
-                style={[
-                  styles.dangerRating,
-                  {
-                    color:
-                      resultObject?.dangerRating < 4
-                        ? "green"
-                        : resultObject?.dangerRating < 8
-                        ? "orange"
-                        : "red",
-                  },
-                ]}
-              >{`Danger Rating: ${resultObject?.dangerRating}/10`}</Text>
-              </View>
-            ) : (<Text style={styles.error}>Model still loading, try again in 30 seconds...</Text>)}
+            <View style={styles.infoCard}>
+              {resultObject ? (
+                <View>
+                  <Text style={styles.resultText}>
+                    {`${resultObject?.commonName} (${
+                      resultObject?.probability.toFixed(2) * 100
+                    }%)`}
+                  </Text>
+                  <Text style={styles.resultSubText}>
+                    {resultObject?.scientificName}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.dangerRating,
+                      {
+                        color:
+                          resultObject?.dangerRating < 4
+                            ? "green"
+                            : resultObject?.dangerRating < 8
+                            ? "orange"
+                            : "red",
+                      },
+                    ]}
+                  >{`Danger Rating: ${resultObject?.dangerRating}/10`}</Text>
+                </View>
+              ) : (
+                <Text style={styles.error}>
+                  Model still loading, try again in 30 seconds...
+                </Text>
+              )}
             </View>
           </View>
         )}
@@ -249,16 +256,25 @@ function Cam ({navigation}) {
               style={styles.closeButton}
               activeOpacity={0.7}
             >
-              <MaterialIcons name="cancel" size={35} color="black"/>
+              <MaterialIcons name="cancel" size={35} color="black" />
             </TouchableOpacity>
           )}
           {isPreview && resultObject && (
             <TouchableOpacity
-            onPress={() => navigation.navigate('SnakeInfo', {commonName: resultObject?.commonName, scientificName: resultObject?.scientificName, family: resultObject?.family, genus: resultObject?.genus, moreInfo: resultObject?.moreInfo, venomousInfo: resultObject?.venomousInfo})}
-            style={styles.learnMoreButton}
-          >
-            <Text>Learn More</Text>
-          </TouchableOpacity>
+              onPress={() =>
+                navigation.navigate("SnakeInfo", {
+                  commonName: resultObject?.commonName,
+                  scientificName: resultObject?.scientificName,
+                  family: resultObject?.family,
+                  genus: resultObject?.genus,
+                  moreInfo: resultObject?.moreInfo,
+                  venomousInfo: resultObject?.venomousInfo,
+                })
+              }
+              style={styles.learnMoreButton}
+            >
+              <Text>Learn More</Text>
+            </TouchableOpacity>
           )}
           {!isPreview && (
             <View style={styles.bottomButtonsContainer}>
@@ -294,14 +310,14 @@ function Cam ({navigation}) {
       </View>
     </PinchGestureHandler>
   );
-};
+}
 
 const styles = StyleSheet.create({
   pickedImage: {
     ...StyleSheet.absoluteFillObject,
   },
   error: {
-    alignSelf: 'center',
+    alignSelf: "center",
     fontWeight: "bold",
     fontSize: 15,
     fontFamily: "Avenir-Medium",
@@ -318,8 +334,8 @@ const styles = StyleSheet.create({
     zIndex: 5000,
   },
   infoCard: {
-    width: Dimensions.get('window').width*0.95,
-    height: Dimensions.get('window').height*0.15,
+    width: Dimensions.get("window").width * 0.95,
+    height: Dimensions.get("window").height * 0.15,
     backgroundColor: "#FEFEFE",
     borderRadius: 20,
     alignContent: "center",
@@ -330,7 +346,7 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     margin: 15,
     padding: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   learnMoreText: {
     fontSize: 14,
@@ -338,8 +354,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   learnMoreButton: {
-    top: Dimensions.get('window').height*0.13,
-    left: Dimensions.get('window').width*0.75,
+    top: Dimensions.get("window").height * 0.13,
+    left: Dimensions.get("window").width * 0.75,
   },
   capture: {
     left: 10,
@@ -352,7 +368,7 @@ const styles = StyleSheet.create({
     width: "74%",
     alignItems: "center",
     justifyContent: "space-between",
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   flipCam: {
     paddingLeft: 53,
