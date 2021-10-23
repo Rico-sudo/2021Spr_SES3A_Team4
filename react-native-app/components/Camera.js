@@ -25,7 +25,7 @@ import { getSnakeDetails } from "./../services/fetchSnakeDetails";
 import LoadingModal from "./Modal/LoadingModal";
 import InfoCard from "./elements/InfoCard";
 
-const Cam = () => {
+function Cam ({navigation}) {
   const { snakeDetector } = useSnakeDetectorModel();
 
   // Loading modal
@@ -236,8 +236,7 @@ const Cam = () => {
                         : "red",
                   },
                 ]}
-              >{`Danger Rating: ${resultObject?.dangerRating}/10`}
-              </Text>
+              >{`Danger Rating: ${resultObject?.dangerRating}/10`}</Text>
               </View>
             ) : (<Text style={styles.error}>Model still loading, try again in 30 seconds...</Text>)}
             </View>
@@ -252,6 +251,14 @@ const Cam = () => {
             >
               <MaterialIcons name="cancel" size={35} color="black"/>
             </TouchableOpacity>
+          )}
+          {isPreview && (
+            <TouchableOpacity
+            onPress={() => navigation.navigate('SnakeInfo', {commonName: resultObject?.commonName, scientificName: resultObject?.scientificName, family: resultObject?.family, genus: resultObject?.genus, moreInfo: resultObject?.moreInfo, venomousInfo: resultObject?.venomousInfo})}
+            style={styles.learnMoreButton}
+          >
+            <Text>Learn More</Text>
+          </TouchableOpacity>
           )}
           {!isPreview && (
             <View style={styles.bottomButtonsContainer}>
@@ -325,16 +332,14 @@ const styles = StyleSheet.create({
     padding: 20,
     alignSelf: 'center',
   },
-  learnMoreButton: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    padding: 18,
-  },
   learnMoreText: {
     fontSize: 14,
     fontFamily: "Avenir-Medium",
     fontWeight: "bold",
+  },
+  learnMoreButton: {
+    top: Dimensions.get('window').height*0.13,
+    left: Dimensions.get('window').width*0.75,
   },
   capture: {
     left: 10,
