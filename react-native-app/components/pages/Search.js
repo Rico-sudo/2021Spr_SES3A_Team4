@@ -50,7 +50,7 @@ class Search extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <SearchBar onChangeText={this.updateSearchQuery} placeholder="Search" />
+        <SearchBar onChangeText={this.updateSearchQuery} placeholder="Search Snake Name" />
         <ScrollView>
           {this.state.searchResults &&
             this.renderSearchResults(this.state.searchResults)}

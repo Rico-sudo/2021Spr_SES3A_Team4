@@ -252,7 +252,7 @@ function Cam ({navigation}) {
               <MaterialIcons name="cancel" size={35} color="black"/>
             </TouchableOpacity>
           )}
-          {isPreview && (
+          {isPreview && resultObject && (
             <TouchableOpacity
             onPress={() => navigation.navigate('SnakeInfo', {commonName: resultObject?.commonName, scientificName: resultObject?.scientificName, family: resultObject?.family, genus: resultObject?.genus, moreInfo: resultObject?.moreInfo, venomousInfo: resultObject?.venomousInfo})}
             style={styles.learnMoreButton}
