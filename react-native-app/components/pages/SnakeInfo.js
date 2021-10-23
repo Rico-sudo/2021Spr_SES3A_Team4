@@ -14,7 +14,7 @@ class SnakeInfo extends Component {
   }
 
   render() {
-    const { commonName, scientificName, family, genus } = this.props.route.params;
+    const { commonName, scientificName, family, genus, moreInfo, venomousInfo } = this.props.route.params;
     console.log(commonName);
     return (
     <View>
@@ -32,12 +32,13 @@ class SnakeInfo extends Component {
             </TouchableOpacity>
          </View>
          </LinearGradient>
-         <ScrollView>
+         <ScrollView style={styles.scrollView}>
             <Text>{commonName}</Text>
             <Text>{scientificName}</Text>
             <Text>{family}</Text>
             <Text>{genus}</Text>
-            <Text>Additional Info</Text>
+            <Text>{moreInfo}</Text>
+            <Text>{venomousInfo}</Text>
             <Text>ADDITIONAL RESOURCES</Text>
          </ScrollView>
      </View>
@@ -71,6 +72,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Avenir-Medium',
     alignSelf: 'center',
+  },
+  scrollView: {
+    padding: 15,
   }
 });
 

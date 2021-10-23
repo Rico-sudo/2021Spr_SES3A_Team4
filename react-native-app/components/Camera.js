@@ -23,6 +23,7 @@ import { PinchGestureHandler } from "react-native-gesture-handler";
 import * as ImageManipulator from "expo-image-manipulator";
 import { getSnakeDetails } from "./../services/fetchSnakeDetails";
 import LoadingModal from "./Modal/LoadingModal";
+import InfoCard from "./elements/InfoCard";
 
 const Cam = () => {
   const { snakeDetector } = useSnakeDetectorModel();
@@ -211,21 +212,21 @@ const Cam = () => {
               style={styles.pickedImage}
             />
             <View
-              style={{
-                backgroundColor: "white",
-                padding: 20,
-                paddingRight: "20%",
-              }}
+              style={styles.infoCard}
             >
+            {resultObject ? (
+              <View>
               <Text style={styles.resultText}>{`${resultObject?.commonName} (${
                 resultObject?.probability.toFixed(2) * 100
-              }%)`}</Text>
+              }%)`}
+              </Text>
               <Text
                 style={styles.resultSubText}
-              >{`Scientific Name: ${resultObject?.scientificName}`}</Text>
+              >{resultObject?.scientificName}
+              </Text>
               <Text
                 style={[
-                  styles.resultSubText,
+                  styles.dangerRating,
                   {
                     color:
                       resultObject?.dangerRating < 4
@@ -235,7 +236,10 @@ const Cam = () => {
                         : "red",
                   },
                 ]}
-              >{`Danger Rating: ${resultObject?.dangerRating}/10`}</Text>
+              >{`Danger Rating: ${resultObject?.dangerRating}/10`}
+              </Text>
+              </View>
+            ) : (<Text style={styles.error}>Model still loading, try again in 30 seconds...</Text>)}
             </View>
           </View>
         )}
@@ -246,7 +250,7 @@ const Cam = () => {
               style={styles.closeButton}
               activeOpacity={0.7}
             >
-              <AntDesign name="close" size={32} color="#fff" />
+              <MaterialIcons name="cancel" size={35} color="black"/>
             </TouchableOpacity>
           )}
           {!isPreview && (
@@ -289,18 +293,48 @@ const styles = StyleSheet.create({
   pickedImage: {
     resizeMode: "contain",
   },
+  error: {
+    alignSelf: 'center',
+    fontWeight: "bold",
+    fontSize: 15,
+    fontFamily: "Avenir-Medium",
+  },
   closeButton: {
     position: "absolute",
     top: 20,
     right: 20,
     height: 50,
     width: 50,
-    borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FF0000",
     opacity: 0.7,
     zIndex: 5000,
+  },
+  infoCard: {
+    width: Dimensions.get('window').width*0.95,
+    height: Dimensions.get('window').height*0.15,
+    backgroundColor: "#FEFEFE",
+    borderRadius: 20,
+    alignContent: "center",
+    justifyContent: "center",
+    shadowColor: "#37373737",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    margin: 15,
+    padding: 20,
+    alignSelf: 'center',
+  },
+  learnMoreButton: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    padding: 18,
+  },
+  learnMoreText: {
+    fontSize: 14,
+    fontFamily: "Avenir-Medium",
+    fontWeight: "bold",
   },
   capture: {
     left: 10,
@@ -331,9 +365,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     fontFamily: "Avenir-Medium",
-    marginBottom: 5,
   },
   resultSubText: {
+    fontSize: 16,
+    fontFamily: "Avenir-Medium",
+  },
+  dangerRating: {
     fontSize: 16,
     fontFamily: "Avenir-Medium",
     marginTop: 5,
