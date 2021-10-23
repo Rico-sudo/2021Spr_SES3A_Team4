@@ -291,7 +291,7 @@ const Cam = () => {
 
 const styles = StyleSheet.create({
   pickedImage: {
-    resizeMode: "contain",
+    ...StyleSheet.absoluteFillObject,
   },
   error: {
     alignSelf: 'center',
