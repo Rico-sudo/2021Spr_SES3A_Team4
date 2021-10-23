@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
-import InfoCard from "../elements/InfoCard";
+import { StyleSheet, ScrollView } from "react-native";
+import HistoryContainer from "../elements/HistoryContainer";
 
 class History extends Component {
   constructor(props) {
@@ -9,10 +9,9 @@ class History extends Component {
   }
 
   render() {
-    const { snakeDataHistory } = useSnakeDetectorModel();
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.results}>No history found.</Text>
+        <HistoryContainer />
       </ScrollView>
     );
   }
@@ -20,9 +19,6 @@ class History extends Component {
 
 const styles = StyleSheet.create({
   container: {},
-  results: {
-    marginTop: Dimensions.get("window").height * 0.4,
-  },
 });
 
 export default History;

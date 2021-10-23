@@ -9,7 +9,7 @@ const SnakeDetectorModelContext = createContext({
 
 export const snakeClassIds = ["486", "216", "453", "578", "71", "590"];
 
-const SNAKE_DATA_HISTORY_KEY = "@history_key";
+const SNAKE_DATA_HISTORY_KEY = "@key";
 
 export const SnakeDetectorModelContextProvider = ({ children }) => {
   const [snakeDetector, setSnakeDetector] = useState(null);

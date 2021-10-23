@@ -114,8 +114,8 @@ function Cam({ navigation }) {
         setResultObject(result.predictedSnakeDetails);
 
         // Store to history
-        if (result !== null || result !== undefined) {
-          storeSnakeDataToHistory(result);
+        if (result.predictedSnakeDetails) {
+          storeSnakeDataToHistory(result.predictedSnakeDetails);
         }
 
         setSelectedImage({ localUri: data.uri });
