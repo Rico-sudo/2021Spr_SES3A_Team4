@@ -10,12 +10,17 @@ import {
 import React from "react";
 
 const HistoryContainer = (props) => {
-  const { snakeDataHistory } = useSnakeDetectorModel();
+  const { snakeDataHistory, clearHistory } = useSnakeDetectorModel();
   return (
     <>
-      <TouchableOpacity style={styles.clearHistoryButton} onPress={() => null}>
-        <Text style={styles.clearHistory}>Clear History</Text>
-      </TouchableOpacity>
+      {snakeDataHistory && snakeDataHistory.length > 0 && (
+        <TouchableOpacity
+          style={styles.clearHistoryButton}
+          onPress={clearHistory}
+        >
+          <Text style={styles.clearHistory}>Clear History</Text>
+        </TouchableOpacity>
+      )}
       <ScrollView contentContainerStyle={styles.container}>
         {snakeDataHistory && snakeDataHistory.length > 0 ? (
           snakeDataHistory.map((snake, index) => (
@@ -52,7 +57,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginRight: 15,
-    marginBottom: 10,
+    marginBottom: 5,
   },
 });
 
