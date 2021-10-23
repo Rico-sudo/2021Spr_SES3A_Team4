@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "white",
     fontFamily: "Avenir-Medium",
-    bottom: 7,
+    bottom: 8,
   },
   statusInactive: {
     color: 'red',
