@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import moment from "moment";
 
 class InfoCard extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class InfoCard extends Component {
 
   displaySection(sectionText) {
     return (
-      <View style={{ flexDirection: "column",}}>
+      <View style={{ flexDirection: "column" }}>
         <Text style={{ color: "grey" }}>{sectionText}</Text>
       </View>
     );
@@ -18,35 +19,62 @@ class InfoCard extends Component {
   render() {
     return (
       <View style={styles.infoCard}>
-        <Image style={styles.images}
-          source={{
-            uri: 'https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/' + this.props._id +'.png',
-          }}
-        />
-        <View style={styles.info}>
-          {this.props.commonName && (
-            <View style={styles.nameContainer}>
-              <Text style={styles.resultSubText}>{this.props.commonName}</Text>
-            </View>
-          )}
-          <View>
+        {this.props.capturedOn && (
+          <Text style={styles.timestamp}>{`Captured: ${moment(
+            this.props.capturedOn
+          ).calendar()}`}</Text>
+        )}
+        <View style={styles.infoContainer}>
+          <Image
+            style={styles.images}
+            source={{
+              uri:
+                "https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/" +
+                this.props._id +
+                ".png",
+            }}
+          />
+          <View style={styles.info}>
+            {this.props.commonName && (
+              <View style={styles.nameContainer}>
+                <Text style={styles.resultSubText}>
+                  {this.props.commonName}
+                </Text>
+              </View>
+            )}
             <View>
-              {this.displaySection(this.props.scientificName)}
-              <Text
-                style={{
-                  color:
-                    this.props.dangerRating < 4
-                      ? "green"
-                      : this.props.dangerRating < 8
-                      ? "orange"
-                      : "red",
-                  marginTop: 10,
-                }}
-              >{`Danger Level: ${this.props.dangerRating}/10`}</Text>
+              <View>
+                {this.displaySection(this.props.scientificName)}
+                <Text
+                  style={{
+                    color:
+                      this.props.dangerRating < 4
+                        ? "green"
+                        : this.props.dangerRating < 8
+                        ? "orange"
+                        : "red",
+                    marginTop: 10,
+                  }}
+                >{`Danger Level: ${this.props.dangerRating}/10`}</Text>
+              </View>
             </View>
           </View>
+          <TouchableOpacity
+            style={styles.learnMoreButton}
+            onPress={() =>
+              this.props.navigation.navigate("SnakeInfo", {
+                commonName: this.props.commonName,
+                scientificName: this.props.scientificName,
+                family: this.props.family,
+                genus: this.props.genus,
+                moreInfo: this.props.moreInfo,
+                venomousInfo: this.props.venomousInfo,
+              })
+            }
+          >
+            <Text style={styles.learnMoreText}>Learn More</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.learnMoreButton} onPress={() => this.props.navigation.navigate('SnakeInfo', {commonName: this.props.commonName, scientificName: this.props.scientificName, family: this.props.family, genus: this.props.genus, moreInfo: this.props.moreInfo, venomousInfo: this.props.venomousInfo})}><Text style={styles.learnMoreText}>Learn More</Text></TouchableOpacity>
       </View>
     );
   }
@@ -66,7 +94,6 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     margin: 15,
     padding: 20,
-    flexDirection: 'row',
   },
   resultSubText: {
     fontSize: 16,
@@ -81,7 +108,7 @@ const styles = StyleSheet.create({
   images: {
     height: 100,
     width: 100,
-    resizeMode: 'stretch',
+    resizeMode: "stretch",
     flex: 1,
     borderRadius: 15,
   },
@@ -90,8 +117,8 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   learnMoreButton: {
-    position: 'absolute',
-    bottom: 0,
+    position: "absolute",
+    bottom: -15,
     right: 0,
     padding: 18,
   },
@@ -99,6 +126,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Avenir-Medium",
     fontWeight: "bold",
+  },
+  infoContainer: {
+    flexDirection: "row",
+  },
+  timestamp: {
+    marginBottom: 10,
+    fontSize: 14,
+    fontFamily: "Avenir-Medium",
+    fontWeight: "bold",
+    color: "#555555",
   },
 });
 

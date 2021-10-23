@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import HistoryContainer from "../elements/HistoryContainer";
 
 class History extends Component {
@@ -10,9 +10,9 @@ class History extends Component {
 
   render() {
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <View>
         <HistoryContainer navigation={this.props.navigation} />
-      </ScrollView>
+      </View>
     );
   }
 }

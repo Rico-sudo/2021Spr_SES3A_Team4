@@ -115,7 +115,10 @@ function Cam({ navigation }) {
 
         // Store to history
         if (result.predictedSnakeDetails) {
-          storeSnakeDataToHistory(result.predictedSnakeDetails);
+          storeSnakeDataToHistory({
+            ...result.predictedSnakeDetails,
+            capturedOn: new Date(),
+          });
         }
 
         setSelectedImage({ localUri: data.uri });
@@ -158,6 +161,14 @@ function Cam({ navigation }) {
         setLoadingMessage("Preparing image.");
         const result = await processImage(source); // if successful, prediction is in result.prediction // otherwise, error message is in result.error
         setResultObject(result.predictedSnakeDetails);
+
+        // Store to history
+        if (result.predictedSnakeDetails) {
+          storeSnakeDataToHistory({
+            ...result.predictedSnakeDetails,
+            capturedOn: new Date(),
+          });
+        }
 
         setSelectedImage({ localUri: data.uri });
         await cameraRef.current.pausePreview();
