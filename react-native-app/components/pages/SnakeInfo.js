@@ -14,6 +14,8 @@ class SnakeInfo extends Component {
   }
 
   render() {
+    const { commonName, scientificName, family, genus } = this.props.route.params;
+    console.log(commonName);
     return (
     <View>
         <LinearGradient
@@ -31,10 +33,11 @@ class SnakeInfo extends Component {
          </View>
          </LinearGradient>
          <ScrollView>
-            <Text>SNAKE NAME</Text>
-            <Text>SNAKE INFO</Text>
-            <Text>WHAT TO DO IF YOU GOT BITTEN</Text>
-            <Text>REMOVALIST SERVICES</Text>
+            <Text>{commonName}</Text>
+            <Text>{scientificName}</Text>
+            <Text>{family}</Text>
+            <Text>{genus}</Text>
+            <Text>Additional Info</Text>
             <Text>ADDITIONAL RESOURCES</Text>
          </ScrollView>
      </View>
@@ -62,6 +65,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Avenir-Medium',
     alignSelf: 'center',
   },
+  commonName: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: 'Avenir-Medium',
+    alignSelf: 'center',
+  }
 });
 
 export default SnakeInfo;

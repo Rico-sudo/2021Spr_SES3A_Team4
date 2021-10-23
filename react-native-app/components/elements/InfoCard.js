@@ -16,7 +16,6 @@ class InfoCard extends Component {
   }
 
   render() {
-    console.log(this.props._id);
     return (
       <View style={styles.infoCard}>
         <Image style={styles.images}
@@ -33,8 +32,6 @@ class InfoCard extends Component {
           <View>
             <View>
               {this.displaySection(this.props.scientificName)}
-              {/* {this.displaySection("Familys", this.props.family)}
-              {this.displaySection("Genus", this.props.genus)} */}
               <Text
                 style={{
                   color:
@@ -49,7 +46,7 @@ class InfoCard extends Component {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.learnMoreButton} onPress={() => this.props.navigation.navigate('SnakeInfo')}><Text style={styles.learnMoreText}>Learn More</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.learnMoreButton} onPress={() => this.props.navigation.navigate('SnakeInfo', {commonName: this.props.commonName, scientificName: this.props.scientificName, family: this.props.family, genus: this.props.genus})}><Text style={styles.learnMoreText}>Learn More</Text></TouchableOpacity>
       </View>
     );
   }
@@ -84,6 +81,7 @@ const styles = StyleSheet.create({
   images: {
     height: 100,
     width: 100,
+    resizeMode: 'stretch',
     flex: 1,
     borderRadius: 15,
   },
