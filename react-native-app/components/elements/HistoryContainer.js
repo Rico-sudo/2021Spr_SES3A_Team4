@@ -13,14 +13,6 @@ const HistoryContainer = (props) => {
   const { snakeDataHistory, clearHistory } = useSnakeDetectorModel();
   return (
     <>
-      {snakeDataHistory && snakeDataHistory.length > 0 && (
-        <TouchableOpacity
-          style={styles.clearHistoryButton}
-          onPress={clearHistory}
-        >
-          <Text style={styles.clearHistory}>Clear History</Text>
-        </TouchableOpacity>
-      )}
       <ScrollView contentContainerStyle={styles.container}>
         {snakeDataHistory && snakeDataHistory.length > 0 ? (
           snakeDataHistory.map((snake, index) => (
@@ -34,6 +26,14 @@ const HistoryContainer = (props) => {
         ) : (
           <Text style={styles.results}>No history found.</Text>
         )}
+        {snakeDataHistory && snakeDataHistory.length > 0 && (
+        <TouchableOpacity
+          style={styles.clearHistoryButton}
+          onPress={clearHistory}
+        >
+          <Text style={styles.clearHistory}>Clear History</Text>
+        </TouchableOpacity>
+      )}
       </ScrollView>
     </>
   );
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   clearHistoryButton: {
-    alignSelf: "flex-end",
+    alignSelf: "center",
     marginTop: 10,
     backgroundColor: "red",
     padding: 10,

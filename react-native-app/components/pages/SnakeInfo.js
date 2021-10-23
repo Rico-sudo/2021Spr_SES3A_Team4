@@ -22,6 +22,25 @@ class SnakeInfo extends Component {
     );
   }
 
+  displayDangerRating(sectionName, sectionText) {
+    return (
+      <View style={{ flexDirection: "column", marginVertical: 5 }}>
+        <Text style={{ fontWeight: "bold" }}>{sectionName}</Text>
+        <Text style={{
+                  color:
+                    sectionText < 4
+                      ? "green"
+                      : sectionText < 8
+                      ? "orange"
+                      : "red",
+                  marginTop: 10,
+                  fontWeight: 'bold',
+                  marginBottom: 10,
+                }}>{sectionText}/10</Text>
+      </View>
+    );
+  }
+
   displaySection(sectionName, sectionText) {
     return (
       <View style={{ flexDirection: "column", marginVertical: 5 }}>
@@ -31,12 +50,28 @@ class SnakeInfo extends Component {
     );
   }
 
-  renderSteps = () => {
-      return "1. Blah \n2. Blah\n3. Blah";
+  renderSteps = (dangerRating) => {
+      let steps = "1. Get the person away from the snake.\n2. Ensure they rest and help them to stay calm.\n3. Call triple zero (000) and ask for an ambulance." +
+      "\n4. Apply a pressure immobilisation bandage - put a pressure bandage over the bite itself. It should be tight and you should not be able to easily slide a finger between the bandage and the skin." +
+      "\n5. Use a heavy crepe or elasticised roller bandage to immobilise the whole limb. Start just above the fingers or toes of the bitten limb and move upwards on the limb as far as the body. Splint the limb including joints on either side of the bite." +
+      "\n6. Keep the person and the limb completely at rest. If possible, mark the site of the bite on the bandage with a pen.";
+      
+      if (dangerRating > 7) {
+        return "This snake is very dangerous - seek immediate medical attention if bitten.\n" + steps;
+      }
+      if (dangerRating == 6) {
+        return "This snake is moderately dangerous - seek medical attention as soon as possible.\n" + steps;
+      }
+      else {
+        return "This snake isn't particularly dangerous, however, you should follow the following steps:\n" +
+        "1. Wash the wound site with warm water and soap.\n"+
+        "2. Bandage the wound to prevent bleeding.\n" + 
+        "3. Take care of the wound to ensure it does not become infected - book an appointment with your GP if you have not had a tetanus shot in the last 5 years."
+      }
   }
 
   render() {
-    const { commonName, scientificName, family, genus, moreInfo, venomousInfo, id } = this.props.route.params;
+    const { commonName, scientificName, family, genus, moreInfo, venomousInfo, id, dangerRating } = this.props.route.params;
     console.log(commonName);
     return (
     <View>
@@ -61,20 +96,24 @@ class SnakeInfo extends Component {
                 {this.displayDetails("Scientific Name", scientificName)}
                 {this.displayDetails("Familys", family)}
                 {this.displayDetails("Genus", genus)}
+                {this.displayDangerRating("Danger Level", dangerRating)}
             </View>
             <View>
-            <Image style={styles.images}
-                source={{
-                    uri: 'https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/' + id +'.png',
-                }}
-            />
+            <View style={{paddingTop: 40, position: 'absolute'}}>
+                <Image style={styles.images}
+                    source={{
+                        uri: 'https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/' + id +'.png',
+                    }}
+                /> 
+            </View>
             </View>
            </View>
             {this.displaySection("Context", moreInfo)}
             {this.displaySection("Venom", venomousInfo)}
-            {this.displaySection("What to do if you get bitten by this snake", this.renderSteps())}
+            {this.displaySection("What to do if you get bitten by this snake", this.renderSteps(dangerRating))}
             <Text style={{ fontSize: 15, textDecorationLine: 'underline'}}>Contact Details</Text>
             <Text style={{ color: "black", marginVertical: 8, }}>WIRES (Snake Removalist): 1300 094 737</Text>
+            <Text style={{ color: "black", marginVertical: 8, marginBottom: 200 }}>Ambulance: 000 or 112</Text>
 
          </ScrollView>
      </View>
@@ -106,7 +145,6 @@ const styles = StyleSheet.create({
       height: 180,
       width: 180,
       borderRadius: 10,
-      marginLeft: 20,
   },
   commonName: {
     color: 'black',
