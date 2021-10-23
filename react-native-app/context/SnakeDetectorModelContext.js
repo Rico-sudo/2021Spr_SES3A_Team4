@@ -9,7 +9,7 @@ const SnakeDetectorModelContext = createContext({
 
 export const snakeClassIds = ["486", "216", "453", "578", "71", "590"];
 
-const SNAKE_DATA_HISTORY_KEY = "@snake_data_history_key";
+const SNAKE_DATA_HISTORY_KEY = "@history_key";
 
 export const SnakeDetectorModelContextProvider = ({ children }) => {
   const [snakeDetector, setSnakeDetector] = useState(null);
@@ -34,7 +34,10 @@ export const SnakeDetectorModelContextProvider = ({ children }) => {
   useEffect(() => {
     const retrieveHistory = async () => {
       try {
-        const value = await AsyncStorage.getItem(SNAKE_DATA_HISTORY_KEY);
+        let value = await AsyncStorage.getItem(SNAKE_DATA_HISTORY_KEY);
+        if (value !== null) {
+          value = JSON.parse(value);
+        }
         setSnakeDataHistory(value);
       } catch (e) {
         console.log("Local Storage Retrieve Error", e.message);
@@ -43,26 +46,32 @@ export const SnakeDetectorModelContextProvider = ({ children }) => {
     retrieveHistory();
   }, []);
 
-  const storeSnakeDataHistory = async (value) => {
-    try {
-      const currentHistory = snakeDataHistory || [];
+  const storeSnakeDataToHistory = (value) => {
+    if (snakeDataHistory) {
+      let currentHistory = [...snakeDataHistory];
       currentHistory.unshift(value);
-
-      const jsonValue = JSON.stringify(currentHistory);
-      await AsyncStorage.setItem(SNAKE_DATA_HISTORY_KEY, jsonValue);
-    } catch (e) {
-      console.log("Local Storage Storage Error", e.message);
+      setSnakeDataHistory(currentHistory);
+    } else {
+      setSnakeDataHistory([value]);
     }
   };
 
   useEffect(() => {
-    console.log("Check", snakeDataHistory);
+    const storeData = async () => {
+      try {
+        const jsonValue = JSON.stringify(snakeDataHistory);
+        await AsyncStorage.setItem(SNAKE_DATA_HISTORY_KEY, jsonValue);
+      } catch (e) {
+        console.log("Local Storage Storage Error", e.message);
+      }
+    };
+    if (snakeDataHistory) storeData();
   }, [snakeDataHistory]);
 
   const snakeDetectorModelContext = {
     snakeDetector,
     snakeDataHistory,
-    storeSnakeDataHistory,
+    storeSnakeDataToHistory,
   };
 
   return (
