@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { MaterialIcons } from "@expo/vector-icons";
 
 class MenuBar extends Component {
@@ -7,6 +7,16 @@ class MenuBar extends Component {
     super(props);
     this.state = {
     };
+  }
+
+  displayAlert = () => {
+    Alert.alert(
+      "Premium Feature",
+      "Please purchase a SnakeScanner+ subscription in settings to access a map of recent snake sightings and many more premium features.",
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    )
   }
 
   renderPageName = () => {
@@ -25,6 +35,9 @@ class MenuBar extends Component {
   render() {
     return (
       <View style={styles.menuBar}>
+        <TouchableOpacity style={styles.map} onPress={() => this.displayAlert()}>
+          <MaterialIcons name="map" size={28} color="white" />
+        </TouchableOpacity>
           {this.renderPageName()}
         <TouchableOpacity style={styles.settings} onPress={() => this.props.navigation.navigate('Settings')}>
           <MaterialIcons name="settings" size={28} color="white" />
@@ -56,6 +69,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     position: 'absolute',
     right: Dimensions.get('window').width*0.05,
+  },
+  map: {
+    alignSelf: 'flex-start',
+    position: 'absolute',
+    left: Dimensions.get('window').width*0.05,
   },
   boundingBox: {
     width: 145,
