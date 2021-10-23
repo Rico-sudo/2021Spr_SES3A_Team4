@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, StatusBar, useColorScheme, TouchableOpacity, Dimensions, ScrollView, Image} from 'react-native';
+import { View, Text, StyleSheet, StatusBar, Linking, useColorScheme, TouchableOpacity, Dimensions, ScrollView, Image} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from "@expo/vector-icons";
 import TopBar from '../menu/TopBar';
@@ -13,11 +13,20 @@ class SnakeInfo extends Component {
     };
   }
 
-  displaySection(sectionName, sectionText) {
+  displayDetails(sectionName, sectionText) {
     return (
       <View style={{ flexDirection: "column", marginVertical: 5 }}>
         <Text style={{ fontWeight: "bold" }}>{sectionName}</Text>
         <Text style={{ color: "grey" }}>{sectionText}</Text>
+      </View>
+    );
+  }
+
+  displaySection(sectionName, sectionText) {
+    return (
+      <View style={{ flexDirection: "column", marginVertical: 5 }}>
+        <Text style={{ fontSize: 15, textDecorationLine: 'underline'}}>{sectionName}</Text>
+        <Text style={{ color: "black", marginVertical: 8, }}>{sectionText}</Text>
       </View>
     );
   }
@@ -45,9 +54,9 @@ class SnakeInfo extends Component {
             <View style={{flexDirection: 'row'}}>
             <View>
                 <Text style={styles.commonName}>{commonName}</Text>
-                {this.displaySection("Scientific Name", scientificName)}
-                {this.displaySection("Familys", family)}
-                {this.displaySection("Genus", genus)}
+                {this.displayDetails("Scientific Name", scientificName)}
+                {this.displayDetails("Familys", family)}
+                {this.displayDetails("Genus", genus)}
             </View>
             <View>
             <Image style={styles.images}
@@ -57,9 +66,12 @@ class SnakeInfo extends Component {
             />
             </View>
            </View>
-            <Text>{moreInfo}</Text>
-            <Text>{venomousInfo}</Text>
-            <Text>ADDITIONAL RESOURCES</Text>
+            {this.displaySection("Context", moreInfo)}
+            {this.displaySection("Venom", venomousInfo)}
+            {this.displaySection("What to do if you get bitten by this snake", "die")}
+            <Text style={{ fontSize: 15, textDecorationLine: 'underline'}}>Contact Details</Text>
+            <Text style={{ color: "black", marginVertical: 8, }}>WIRES (Snake Removalist): 1300 094 737</Text>
+
          </ScrollView>
      </View>
     );
@@ -88,7 +100,8 @@ const styles = StyleSheet.create({
   },
   images: {
       height: 100,
-      width: 100,
+      width: 120,
+      borderRadius: 10,
   },
   commonName: {
     color: 'black',
@@ -99,7 +112,10 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     padding: 15,
-  }
+  },
+  moreInfo: {
+    marginTop: 20,
+  },
 });
 
 export default SnakeInfo;
