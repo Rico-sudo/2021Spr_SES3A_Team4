@@ -13,6 +13,15 @@ class SnakeInfo extends Component {
     };
   }
 
+  displaySection(sectionName, sectionText) {
+    return (
+      <View style={{ flexDirection: "column", marginVertical: 5 }}>
+        <Text style={{ fontWeight: "bold" }}>{sectionName}</Text>
+        <Text style={{ color: "grey" }}>{sectionText}</Text>
+      </View>
+    );
+  }
+
   render() {
     const { commonName, scientificName, family, genus, moreInfo, venomousInfo, id } = this.props.route.params;
     console.log(commonName);
@@ -36,9 +45,9 @@ class SnakeInfo extends Component {
             <View style={{flexDirection: 'row'}}>
             <View>
                 <Text style={styles.commonName}>{commonName}</Text>
-                <Text>Scientific Name: {scientificName}</Text>
-                <Text>{family}</Text>
-                <Text>{genus}</Text>
+                {this.displaySection("Scientific Name", scientificName)}
+                {this.displaySection("Familys", family)}
+                {this.displaySection("Genus", genus)}
             </View>
             <View>
             <Image style={styles.images}
