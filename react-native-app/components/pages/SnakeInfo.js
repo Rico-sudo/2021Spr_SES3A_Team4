@@ -31,6 +31,10 @@ class SnakeInfo extends Component {
     );
   }
 
+  renderSteps = () => {
+      return "1. Blah \n2. Blah\n3. Blah";
+  }
+
   render() {
     const { commonName, scientificName, family, genus, moreInfo, venomousInfo, id } = this.props.route.params;
     console.log(commonName);
@@ -68,7 +72,7 @@ class SnakeInfo extends Component {
            </View>
             {this.displaySection("Context", moreInfo)}
             {this.displaySection("Venom", venomousInfo)}
-            {this.displaySection("What to do if you get bitten by this snake", "die")}
+            {this.displaySection("What to do if you get bitten by this snake", this.renderSteps())}
             <Text style={{ fontSize: 15, textDecorationLine: 'underline'}}>Contact Details</Text>
             <Text style={{ color: "black", marginVertical: 8, }}>WIRES (Snake Removalist): 1300 094 737</Text>
 
@@ -99,9 +103,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   images: {
-      height: 100,
-      width: 120,
+      height: 180,
+      width: 180,
       borderRadius: 10,
+      marginLeft: 20,
   },
   commonName: {
     color: 'black',
