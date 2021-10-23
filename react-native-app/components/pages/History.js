@@ -11,7 +11,7 @@ class History extends Component {
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <HistoryContainer />
+        <HistoryContainer navigation={this.props.navigation} />
       </ScrollView>
     );
   }
