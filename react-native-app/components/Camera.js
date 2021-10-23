@@ -101,12 +101,25 @@ function Cam({ navigation }) {
   const onSnap = async () => {
     if (cameraRef.current) {
       const data = await cameraRef.current.takePictureAsync();
+      const width = data.width;
+      const height = data.height;
+
       setOpenLoader(true);
       setLoadingMessage("Preparing image.");
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         data.uri,
-        [{ resize: { width: 224, height: 224 } }],
-        { compress: 0.5, base64: true }
+        [
+          {
+            crop: {
+              originX: 0,
+              originY: (height - width) / 2,
+              width: width,
+              height: width,
+            },
+          },
+          { resize: { width: 224, height: 224 } },
+        ],
+        { base64: true }
       );
       const source = resizedPhoto.base64;
       if (source) {
@@ -145,10 +158,11 @@ function Cam({ navigation }) {
       }
 
       const data = await ImagePicker.launchImageLibraryAsync({});
+
       const resizedPhoto = await ImageManipulator.manipulateAsync(
         data.uri,
         [{ resize: { width: 224, height: 224 } }],
-        { compress: 0.5, base64: true }
+        { base64: true }
       );
       const source = resizedPhoto.base64;
 
@@ -221,6 +235,11 @@ function Cam({ navigation }) {
           type={cameraType}
           onCameraReady={onCameraReady}
         />
+        <View style={styles.frameContainer}>
+          <Image style={styles.frame} source={require("../assets/frame.png")} />
+        </View>
+
+        <View />
         {selectedImage && (
           <View style={{ flex: 1 }}>
             <Image
@@ -272,19 +291,22 @@ function Cam({ navigation }) {
           )}
           {isPreview && resultObject && (
             <TouchableOpacity
-            onPress={() => navigation.navigate('SnakeInfo', {
-              commonName: resultObject?.commonName, 
-              scientificName: resultObject?.scientificName, 
-              family: resultObject?.family, 
-              genus: resultObject?.genus, 
-              moreInfo: resultObject?.moreInfo, 
-              venomousInfo: resultObject?.venomousInfo, 
-              id: resultObject?._id, 
-              dangerRating: resultObject?.dangerRating})}
-
-            style={styles.learnMoreButton}>
-            <Text>Learn More</Text>
-          </TouchableOpacity>
+              onPress={() =>
+                navigation.navigate("SnakeInfo", {
+                  commonName: resultObject?.commonName,
+                  scientificName: resultObject?.scientificName,
+                  family: resultObject?.family,
+                  genus: resultObject?.genus,
+                  moreInfo: resultObject?.moreInfo,
+                  venomousInfo: resultObject?.venomousInfo,
+                  id: resultObject?._id,
+                  dangerRating: resultObject?.dangerRating,
+                })
+              }
+              style={styles.learnMoreButton}
+            >
+              <Text>Learn More</Text>
+            </TouchableOpacity>
           )}
           {!isPreview && (
             <View style={styles.bottomButtonsContainer}>
@@ -405,6 +427,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Avenir-Medium",
     marginTop: 5,
+  },
+  frameContainer: {
+    ...StyleSheet.absoluteFill,
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  frame: {
+    width: Dimensions.get("window").width * 0.9,
+    height: Dimensions.get("window").width * 0.9,
   },
 });
 
