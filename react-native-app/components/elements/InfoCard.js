@@ -8,6 +8,14 @@ class InfoCard extends Component {
     this.state = {};
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (JSON.stringify(nextProps) !== JSON.stringify(this.props)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   displaySection(sectionText) {
     return (
       <View style={{ flexDirection: "column" }}>
@@ -17,6 +25,11 @@ class InfoCard extends Component {
   }
 
   render() {
+    console.log(
+      "https://ss3a-snakescanner-snake-images.s3.ap-southeast-2.amazonaws.com/" +
+        this.props._id +
+        ".png"
+    );
     return (
       <View style={styles.infoCard}>
         {this.props.capturedOn && (
